@@ -171,6 +171,8 @@ def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None,
         state['editing_defaults'] = read(root / '00_项目配置/剪辑规则配置.json')
         from .covers import config as cover_config
         state['cover_plan'] = cover_config(root)
+        from .writing import config as writing_config
+        state['writing_rules'] = writing_config(root)
         write(staging / '00_项目记录/工作台状态.json', state)
         staging.rename(target)
     return {'episode': name, 'path': str(target), 'storyline_check': story_check or {'status': 'MISSING_PROFILE'}}
@@ -237,6 +239,8 @@ class Episode:
             payload['creative_brief'] = self.s['creative_brief']
         if 'storyline' in self.s:
             payload['storyline'] = self.s['storyline']
+        if 'writing_rules' in self.s:
+            payload['writing_rules'] = self.s['writing_rules']
         return digest(payload)
 
     def require_locked(self):
@@ -312,6 +316,8 @@ class Episode:
             payload['creative_brief'] = self.s['creative_brief']
         if 'storyline' in self.s:
             payload['storyline'] = self.s['storyline']
+        if 'writing_rules' in self.s:
+            payload['writing_rules'] = self.s['writing_rules']
         return digest(payload)
 
     def stage_packet(self, role):
@@ -320,6 +326,7 @@ class Episode:
             packet['outline'] = self.s['outline']
         packet['creative_brief'] = self.s.get('creative_brief', {})
         packet['storyline'] = self.s.get('storyline')
+        packet['writing_rules'] = self.s.get('writing_rules', {})
         packet.update(role=role, input_hash=self.stage_signature(role), instruction='只审核资料可追溯性、主张边界或提纲结构；不对尚未生成的稿件评分。')
         path = self.path / f'03_审核记录/独立任务/{role}_前置_{packet["input_hash"][:12]}.json'
         write(path, packet)
@@ -344,6 +351,7 @@ class Episode:
         packet = {'role': role, 'title': self.s['script'].get('title', self.s['title']), 'input_hash': self.signature(), 'script': self.s['script']['text'], 'paragraphs': self.s['script']['paragraphs'], 'sources': self.s['sources'], 'claims': self.s['claims'], 'timeline': self.s['timeline'], 'disputes': self.s['disputes'], 'outline': self.s['outline'], 'rubric': SCORES, 'instruction': '独立核对；结论、证据、逐项量表、问题必须实际填写。不得读取作者自评。'}
         packet['creative_brief'] = self.s.get('creative_brief', {})
         packet['storyline'] = self.s.get('storyline')
+        packet['writing_rules'] = self.s.get('writing_rules', {})
         path = self.path / f'03_审核记录/独立任务/{role}_{self.signature()[:12]}.json'
         write(path, packet)
         return {'packet': str(path), 'input_hash': self.signature()}
