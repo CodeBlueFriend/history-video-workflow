@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "topics": [],
+  "fields": [
+    "topic_id",
+    "title",
+    "series",
+    "core_question",
+    "audience_value",
+    "content_mode",
+    "source_leads",
+    "source_availability",
+    "visual_feasibility",
+    "target_duration",
+    "status",
+    "episode_id"
+  ]
+}

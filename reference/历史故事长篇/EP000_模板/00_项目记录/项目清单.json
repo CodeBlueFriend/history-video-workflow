@@ -1,0 +1,42 @@
+{
+  "schema_version": "3.0",
+  "episode_id": "EP000",
+  "title": "待填写",
+  "target_duration_seconds": 1800,
+  "content_mode": null,
+  "content_stage": "NEW",
+  "production_stage": "NOT_STARTED",
+  "script_revision": 0,
+  "script_locked": false,
+  "review_status": "NOT_RUN",
+  "asset_status": {
+    "images": "NOT_STARTED",
+    "audio": "NOT_STARTED",
+    "cover": "NOT_STARTED"
+  },
+  "editor_project": null,
+  "blockers": [],
+  "outputs": {},
+  "note": "这是空白模板；占位内容不能用作正式配音。",
+  "image_budget": {
+    "default_body_count": 6,
+    "reference_range": [
+      4,
+      8
+    ],
+    "cover_separate": true
+  },
+  "duration_requirements": {
+    "target_seconds": 1800,
+    "min_seconds": 1800,
+    "max_seconds": 1860,
+    "origin": "内部默认，可按本集调整"
+  },
+  "duration_status": {
+    "script_estimate": "NOT_RUN",
+    "audio_measurement": "NOT_RUN",
+    "video_measurement": "NOT_RUN"
+  },
+  "editing_document_status": "TEMPLATE_ONLY",
+  "editing_document_revision": null
+}

@@ -1,0 +1,16 @@
+{
+  "status": "NOT_RUN",
+  "body_duration_seconds": null,
+  "motion_duration_seconds": null,
+  "motion_coverage_percent": null,
+  "longest_static_seconds": null,
+  "static_exception_ids": [],
+  "checks": [],
+  "visual_review_performed": false,
+  "audio_timeline_preserved": null,
+  "transition_overlap_verified": null,
+  "no_unsafe_crops": null,
+  "natural_transitions_verified": null,
+  "timeline_coverage_complete": null,
+  "unreviewed_static_exceptions": null
+}

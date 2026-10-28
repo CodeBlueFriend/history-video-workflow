@@ -1,0 +1,24 @@
+{
+  "schema_version": "5.0",
+  "status": "TEMPLATE_ONLY",
+  "episode_id": "EP000",
+  "document_revision": null,
+  "script_revision": null,
+  "audio_revision": null,
+  "source_of_truth": "structured_manifests",
+  "source_files": [
+    "../镜头运动计划.json",
+    "../转场计划.json",
+    "../静止例外记录.json",
+    "../交接清单.json",
+    "../../04_素材/素材总表.json"
+  ],
+  "templates": [
+    "本集剪辑执行文档模板.docx",
+    "本集剪辑执行文档模板.txt",
+    "素材对应表.txt",
+    "剪辑审核与修改记录.txt"
+  ],
+  "generated_episode_documents": [],
+  "finalized": false
+}

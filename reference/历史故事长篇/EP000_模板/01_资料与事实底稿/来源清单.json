@@ -1,0 +1,21 @@
+{
+  "sources": [],
+  "fields": [
+    "source_id",
+    "title",
+    "author_or_institution",
+    "genre",
+    "creation_date",
+    "edition",
+    "locator",
+    "url",
+    "excerpt",
+    "event_distance_note",
+    "perspective_note",
+    "source_family_id",
+    "supports_claim_ids",
+    "conflicting_claim_ids",
+    "accessed_at",
+    "verification_status"
+  ]
+}

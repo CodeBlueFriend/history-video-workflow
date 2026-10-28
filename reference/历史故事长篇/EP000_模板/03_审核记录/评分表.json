@@ -1,0 +1,45 @@
+{
+  "status": "NOT_RUN",
+  "rubric": [
+    {
+      "dimension": "史料准确和表达边界",
+      "max_score": 30,
+      "score": null,
+      "evidence": []
+    },
+    {
+      "dimension": "主线因果",
+      "max_score": 20,
+      "score": null,
+      "evidence": []
+    },
+    {
+      "dimension": "结构与长篇节奏",
+      "max_score": 20,
+      "score": null,
+      "evidence": []
+    },
+    {
+      "dimension": "口播与评书感",
+      "max_score": 15,
+      "score": null,
+      "evidence": []
+    },
+    {
+      "dimension": "原创与去AI味",
+      "max_score": 10,
+      "score": null,
+      "evidence": []
+    },
+    {
+      "dimension": "标题与正文一致",
+      "max_score": 5,
+      "score": null,
+      "evidence": []
+    }
+  ],
+  "total": null,
+  "internal_threshold": 85,
+  "hard_gate_passed": false,
+  "note": "内部质量规则；分数不抵消P0/P1硬伤。"
+}

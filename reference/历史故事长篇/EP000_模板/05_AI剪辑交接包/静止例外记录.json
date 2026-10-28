@@ -1,0 +1,20 @@
+{
+  "status": "NOT_REVIEWED",
+  "exceptions": [],
+  "fields": [
+    "exception_id",
+    "image_id",
+    "shot_id",
+    "start_seconds",
+    "end_seconds",
+    "duration_seconds",
+    "narration_continues",
+    "safe_motion_exhausted_reason",
+    "why_no_reasonable_cut_now",
+    "alternatives_considered",
+    "review_result",
+    "review_decision",
+    "reviewed_by",
+    "remaining_gap"
+  ]
+}

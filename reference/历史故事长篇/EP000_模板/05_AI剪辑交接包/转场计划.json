@@ -1,0 +1,17 @@
+{
+  "status": "NOT_PLANNED",
+  "transitions": [],
+  "fields": [
+    "transition_id",
+    "from_shot_id",
+    "to_shot_id",
+    "semantic_anchor",
+    "method",
+    "duration_seconds",
+    "position_scale_direction_check",
+    "brightness_color_check",
+    "ghosting_check",
+    "audio_continuity_check",
+    "editor_setting_status"
+  ]
+}

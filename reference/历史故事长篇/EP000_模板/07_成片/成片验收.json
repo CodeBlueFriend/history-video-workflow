@@ -1,0 +1,17 @@
+{
+  "status": "NOT_RUN",
+  "checks": [],
+  "content_review_passed": false,
+  "audio_review_passed": false,
+  "subtitle_review_passed": false,
+  "visual_review_passed": false,
+  "cover_review_passed": false,
+  "file_playback_verified": false,
+  "final_accepted": false,
+  "measured_total_seconds": null,
+  "duration_acceptance_passed": false,
+  "sparse_visual_plan_followed": false,
+  "editing_quality_review_passed": false,
+  "static_exceptions_reviewed": false,
+  "editing_documents_finalized": false
+}

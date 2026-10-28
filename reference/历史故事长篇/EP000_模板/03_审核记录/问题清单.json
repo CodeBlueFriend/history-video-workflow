@@ -1,0 +1,18 @@
+{
+  "issues": [],
+  "fields": [
+    "issue_id",
+    "script_revision",
+    "paragraph_id",
+    "quote",
+    "severity",
+    "category",
+    "evidence",
+    "suggested_fix",
+    "acceptance_criteria",
+    "assigned_role",
+    "fix_result",
+    "recheck_result",
+    "user_acceptance_if_applicable"
+  ]
+}

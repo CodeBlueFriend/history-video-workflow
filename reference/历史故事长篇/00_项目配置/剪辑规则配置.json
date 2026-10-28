@@ -1,0 +1,66 @@
+{
+  "rule_version": "4.0-design",
+  "parameter_status": "UNTESTED_STARTING_VALUES",
+  "motion": {
+    "default": "natural_slow_motion",
+    "one_primary_motion_per_segment": true,
+    "segment_seconds_start_range": [
+      30,
+      60
+    ],
+    "segment_length_is_not_source_image_cut_interval": true,
+    "scale_change_percentage_points_start_range": [
+      2,
+      8
+    ],
+    "cumulative_scale_must_be_asset_safe": true,
+    "validate_interpolated_path": true,
+    "prohibited": [
+      "unbounded_zoom",
+      "obvious_repeating_pan_loop",
+      "instant_pose_reset",
+      "edge_exposure",
+      "face_or_key_detail_crop",
+      "imperceptible_jitter_as_fake_motion"
+    ],
+    "scale_reference": "1.00为适配并覆盖输出画幅后的基准构图"
+  },
+  "static_exception": {
+    "required_conditions": [
+      "natural_safe_motion_exhausted",
+      "narration_still_continues",
+      "no_reasonable_current_cut_point"
+    ],
+    "reason_and_timing_required": true,
+    "starting_short_hold_seconds": [
+      2,
+      6
+    ],
+    "review_trigger_seconds": 6,
+    "trigger_is_not_auto_fail": true,
+    "mandatory_visual_review": true
+  },
+  "transitions": {
+    "choose_on_semantic_anchor": true,
+    "default_dissolve_seconds": 0.8,
+    "dissolve_reference_range_seconds": [
+      0.4,
+      1.2
+    ],
+    "dissolve_not_universal": true,
+    "check_subject_position_scale_direction_brightness": true,
+    "double_face_ghosting_requires_change": true,
+    "audio_timeline_unchanged": true,
+    "overlap_not_subtracted_twice": true
+  },
+  "quality": {
+    "protect_subtitles_and_subjects": true,
+    "motion_percent_target": null,
+    "metric_status": "NOT_MEASURED",
+    "do_not_pass_on_motion_ratio_alone": true,
+    "source_image_budget_unchanged": true,
+    "long_single_image_sample_required": true,
+    "require_full_body_timeline_coverage": true,
+    "unreviewed_static_exceptions_block_acceptance": true
+  }
+}

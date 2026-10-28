@@ -1,0 +1,15 @@
+{
+  "claims": [],
+  "fields": [
+    "claim_id",
+    "claim_text",
+    "source_ids",
+    "supporting_locators",
+    "source_relationships",
+    "contrary_evidence",
+    "evidence_status",
+    "allowed_wording",
+    "narration_paragraph_ids",
+    "review_status"
+  ]
+}

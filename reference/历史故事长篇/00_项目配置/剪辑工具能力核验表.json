@@ -1,0 +1,94 @@
+{
+  "tool_name": null,
+  "version_or_plan": null,
+  "checked_at": null,
+  "status": "NOT_TESTED",
+  "capabilities": [
+    {
+      "name": "导入并保留本地完整旁白",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "导入本地图片并调整顺序",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "横屏16比9",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "目标长片时长可处理",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "中文字幕识别及修改",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "已有字幕导入或可编辑字幕交接",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "图片缓慢推近平移等运动",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "保持原稿和原配音不自动改写",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "导出目标画质完整MP4",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "保存工程或可追溯项目记录",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "长镜头关键帧数量和时长限制",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "运动缓动与起终构图连续控制",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "逐镜头裁切和安全边界控制",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "硬切和可调叠化时长",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "保留旁白时轴并正确计算画面重叠",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "字幕安全区和手机可读性",
+      "verified": null,
+      "evidence": null
+    },
+    {
+      "name": "导出长片后完整播放与工程恢复",
+      "verified": null,
+      "evidence": null
+    }
+  ],
+  "blocking_gaps": []
+}

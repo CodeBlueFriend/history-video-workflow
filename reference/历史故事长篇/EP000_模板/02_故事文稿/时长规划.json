@@ -1,0 +1,38 @@
+{
+  "schema_version": "4.0",
+  "target_seconds": 1800,
+  "acceptance_min_seconds": 1800,
+  "acceptance_max_seconds": 1860,
+  "script_revision": null,
+  "counting_method": "统一有效口播长度规则，数字缩写按计划读法规范化",
+  "effective_spoken_units": null,
+  "calibration": {
+    "status": "NOT_MEASURED",
+    "voice_name_or_id": null,
+    "web_model": null,
+    "speed_setting": null,
+    "reference_text_file": null,
+    "audio_file": null,
+    "spoken_units": null,
+    "measured_seconds": null,
+    "units_per_minute": null,
+    "natural_pauses_included": null
+  },
+  "estimate": {
+    "status": "NOT_RUN",
+    "seconds": null,
+    "range_seconds": null,
+    "rate_source": null
+  },
+  "chapters": [],
+  "actual_audio_seconds": null,
+  "actual_video_seconds": null,
+  "script_estimate_passed": false,
+  "audio_duration_passed": false,
+  "final_duration_passed": false,
+  "extra_narration_pause_seconds_not_in_rate": 0,
+  "nonoverlapping_video_intro_outro_seconds": 0,
+  "narration_expected_seconds": null,
+  "narration_acceptable_range_seconds": null,
+  "audio_acceptance_basis": "完整性及旁白规划偏差 独立于成片区间"
+}

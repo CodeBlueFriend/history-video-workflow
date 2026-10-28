@@ -1,0 +1,21 @@
+{
+  "status": "NOT_PREPARED",
+  "script_revision": null,
+  "script_hash": null,
+  "editor_name": null,
+  "files": [],
+  "asset_mapping": [],
+  "subtitle_status": "NOT_GENERATED",
+  "note": "通用素材清单，不是任何剪辑软件的原生草稿。",
+  "duration_plan_file": "../02_故事文稿/时长规划.json",
+  "body_image_budget": 6,
+  "visual_mode": "sparse_landscape_backgrounds",
+  "avoid_auto_added_images": true,
+  "motion_plan_file": "镜头运动计划.json",
+  "transition_plan_file": "转场计划.json",
+  "static_exceptions_file": "静止例外记录.json",
+  "body_timeline_coverage_status": "NOT_PLANNED",
+  "readable_editing_documents_dir": "剪辑文档",
+  "readable_editing_documents_ready": false,
+  "document_input_versions_match": false
+}

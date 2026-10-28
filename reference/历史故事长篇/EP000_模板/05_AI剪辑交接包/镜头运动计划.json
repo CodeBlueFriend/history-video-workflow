@@ -1,0 +1,27 @@
+{
+  "status": "NOT_PLANNED",
+  "script_revision": null,
+  "audio_hash": null,
+  "shots": [],
+  "fields": [
+    "shot_id",
+    "image_id",
+    "paragraph_ids",
+    "narration_start_anchor",
+    "narration_end_anchor",
+    "measured_start_seconds",
+    "measured_end_seconds",
+    "start_pose",
+    "end_pose",
+    "primary_motion",
+    "easing",
+    "visual_purpose",
+    "transition_id",
+    "safety_review",
+    "editor_setting_status",
+    "setting_owner",
+    "verified_tool_function",
+    "result_verification_method"
+  ],
+  "note": "K镜头段可多于IMG源图片；未知时轴和坐标留空，不冒充真实设置。"
+}

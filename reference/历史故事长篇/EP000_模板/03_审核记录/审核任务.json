@@ -1,0 +1,10 @@
+{
+  "review_rounds": [],
+  "independent_roles": [
+    "史料与事实审核",
+    "结构与叙事审核",
+    "口播与去AI味审核"
+  ],
+  "max_auto_revision_rounds_for_same_issue": 2,
+  "status": "NOT_RUN"
+}

@@ -1,0 +1,93 @@
+{
+  "workflow_version": "5.0-design",
+  "project_name": "历史故事长篇",
+  "root_location": {
+    "base": "actual_desktop",
+    "folder_name": "历史故事长篇",
+    "resolved_absolute_path": null,
+    "must_confirm_if_unresolvable": true,
+    "episode_folders_direct_children": true
+  },
+  "video": {
+    "aspect_ratio": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "fps_preference": 25,
+    "target_duration_seconds_default": 1800
+  },
+  "voice": {
+    "provider": "MiniMax",
+    "mode": "web_manual",
+    "selected_by_user": true,
+    "voice_name_or_id": "",
+    "web_model": "",
+    "speed": null,
+    "style_note": "中高音，清晰耐听，语速偏慢，有评书韵味"
+  },
+  "editing": {
+    "mode": "external_ai_editor",
+    "tool_name": null,
+    "verified_capabilities_file": "00_项目配置/剪辑工具能力核验表.json",
+    "preserve_frozen_script": true,
+    "preserve_supplied_narration": true,
+    "default_inhouse_renderer": false,
+    "rules_file": "00_项目配置/剪辑规则配置.json",
+    "motion_and_transition_sample_required_before_integration": true,
+    "readable_episode_documents_required": true,
+    "readable_documents_directory": "05_AI剪辑交接包/剪辑文档",
+    "readable_documents_generated_from_manifests": true
+  },
+  "content": {
+    "genre_is_not_reliability": true,
+    "fixed_official_vs_anecdotal_ratio": null,
+    "max_auto_revision_rounds_for_same_issue": 2,
+    "internal_score_threshold": 85,
+    "max_score": 100,
+    "p0_must_be_zero": true,
+    "p1_requires_fixed_or_explicit_acceptance": true,
+    "factual_hard_errors_are_not_waivable": true
+  },
+  "assets": {
+    "required_categories": [
+      "图片",
+      "音频",
+      "封面"
+    ],
+    "optional_categories": [
+      "音乐与音效"
+    ],
+    "ai_image_channel": "to_be_configured",
+    "visual_mode": "sparse_landscape_backgrounds",
+    "default_body_image_count_for_30min": 6,
+    "reference_body_image_count_range_for_30min": [
+      4,
+      8
+    ],
+    "image_budget_user_adjustable": true,
+    "cover_counted_separately": true,
+    "image_count_independent_of_paragraphs_and_chapters": true,
+    "prompt_scope": "one_representative_scene",
+    "default_image_aspect_ratio": "16:9",
+    "frequent_cuts": false,
+    "image_motion": "planned_natural_slow_motion_by_default",
+    "editor_autofill_additional_images": false,
+    "static_frames_require_exception_record": true
+  },
+  "background_music_enabled": false,
+  "duration_policy": {
+    "goal_mode": "at_least_target",
+    "default_target_seconds": 1800,
+    "default_final_acceptance_min_seconds": 1800,
+    "default_final_acceptance_max_seconds": 1860,
+    "internal_defaults_user_adjustable": true,
+    "must_estimate_from_rewritten_narration_before_lock": true,
+    "preferred_estimation_method": "calibrate_selected_voice_and_settings",
+    "uncalibrated_estimates_must_be_labeled": true,
+    "must_measure_audio_after_import": true,
+    "must_measure_final_video_before_acceptance": true,
+    "do_not_double_count_sample_pauses": true,
+    "may_not_pass_by_padding_silence_or_stretching_images": true,
+    "audio_acceptance_separate_from_final_video": true,
+    "only_add_nonoverlapping_intro_outro_time": true
+  }
+}

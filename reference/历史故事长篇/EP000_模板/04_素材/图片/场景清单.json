@@ -1,0 +1,22 @@
+{
+  "visual_mode": "sparse_backgrounds",
+  "body_image_budget": 6,
+  "cover_counted_separately": true,
+  "count_independent_of_chapters": true,
+  "representative_scenes": [],
+  "fields": [
+    "image_id",
+    "representative_scene",
+    "matched_paragraph_id",
+    "matched_script_excerpt",
+    "source_claim_ids",
+    "display_coverage_suggestion",
+    "prompt_file",
+    "image_file",
+    "aspect_ratio",
+    "motion_plan_reference",
+    "review_status"
+  ],
+  "timing_status": "NOT_GENERATED",
+  "motion_default": "planned_natural_slow"
+}

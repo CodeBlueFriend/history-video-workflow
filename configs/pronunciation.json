@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "replacements": [
+    {"from": "208年", "to": "二百零八年", "note": "年份明确读法；保留原文供字幕"}
+  ],
+  "review_only": [
+    {"text": "曹操", "reading": "cáo cāo"},
+    {"text": "鲁肃", "reading": "lǔ sù"},
+    {"text": "周瑜", "reading": "zhōu yú"},
+    {"text": "诸葛亮", "reading": "zhū gě liàng"},
+    {"text": "荆州", "reading": "jīng zhōu"}
+  ]
+}

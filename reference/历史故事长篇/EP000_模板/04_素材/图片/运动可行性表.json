@@ -1,0 +1,22 @@
+{
+  "status": "NOT_REVIEWED",
+  "assets": [],
+  "fields": [
+    "image_id",
+    "actual_width",
+    "actual_height",
+    "subject_protection_regions",
+    "subtitle_protection_region",
+    "available_poses",
+    "safe_scale_bounds",
+    "safe_pan_bounds",
+    "estimated_narration_coverage_seconds",
+    "risks",
+    "review_result",
+    "allocated_narration_seconds",
+    "planned_motion_segments",
+    "remaining_static_intervals",
+    "coverage_deficit_seconds",
+    "can_cover_allocated_narration"
+  ]
+}

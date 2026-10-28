@@ -1,0 +1,47 @@
+{
+  "script_revision": null,
+  "status": "NOT_RUN",
+  "checks": [
+    {
+      "name": "时间与倒叙标识",
+      "result": null,
+      "evidence": []
+    },
+    {
+      "name": "人物身份与称谓",
+      "result": null,
+      "evidence": []
+    },
+    {
+      "name": "各方认知与信息顺序",
+      "result": null,
+      "evidence": []
+    },
+    {
+      "name": "选择行动和因果",
+      "result": null,
+      "evidence": []
+    },
+    {
+      "name": "章节过渡与前提",
+      "result": null,
+      "evidence": []
+    },
+    {
+      "name": "重复解释和缺失连接",
+      "result": null,
+      "evidence": []
+    },
+    {
+      "name": "开头承诺与结尾回答",
+      "result": null,
+      "evidence": []
+    },
+    {
+      "name": "新增二创表达的来源边界",
+      "result": null,
+      "evidence": []
+    }
+  ],
+  "issues": []
+}

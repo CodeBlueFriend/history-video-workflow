@@ -1,0 +1,15 @@
+{
+  "version": "V5",
+  "design_documents": "PASS",
+  "readable_editing_documents_present": "PASS",
+  "source_relative_paths": "PASS",
+  "txt_includes_word_table_fields": "PASS",
+  "template_version_distinct_from_episode_revision": "PASS",
+  "main_doc_pages": 14,
+  "episode_template_pages": 3,
+  "visual_review": "PASS",
+  "json_parse": "PASS",
+  "real_episode_times": "NOT_FILLED",
+  "runtime_generation": "NOT_IMPLEMENTED",
+  "user_desktop_modified": false
+}
