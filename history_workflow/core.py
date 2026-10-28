@@ -169,6 +169,8 @@ def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None,
             state['storyline'] = story
             state['storyline_check'] = {**story_check, 'checked_at': now()}
         state['editing_defaults'] = read(root / '00_项目配置/剪辑规则配置.json')
+        from .covers import config as cover_config
+        state['cover_plan'] = cover_config(root)
         write(staging / '00_项目记录/工作台状态.json', state)
         staging.rename(target)
     return {'episode': name, 'path': str(target), 'storyline_check': story_check or {'status': 'MISSING_PROFILE'}}
@@ -533,6 +535,9 @@ class Episode:
                 image.verify()
             with Image.open(data['file']) as image:
                 measured = {'width': image.width, 'height': image.height}
+            if kind == 'cover' and data.get('cover_target'):
+                from .covers import validate, config as cover_config
+                measured['cover_validation'] = validate(self.s.get('cover_plan') or cover_config(self.root), data['cover_target'], measured['width'], measured['height'])
             if kind == 'image':
                 require(data.get('scene') and data.get('paragraphs'), '图片需关联单一代表场景和段落')
                 require(set(data['paragraphs']) <= {p['id'] for p in self.s['script']['paragraphs']}, '图片引用未知段落')

@@ -18,6 +18,8 @@ def generate(folder: Path, state, stage, version):
     defaults = state.get('editing_defaults', {})
     if defaults:
         sections.append(('项目默认剪辑参数', ['本版生成时的项目参数快照；逐镜头实际设置与安全检查仍以镜头表为准。', pretty(defaults)]))
+    if state.get('cover_plan'):
+        sections.append(('双平台封面任务', ['B站横版与抖音竖版分别构图；锁稿后可与配音独立推进，导出后核验像素尺寸。', pretty(state['cover_plan'])]))
     e = state['estimate']
     sections.append(('版本与时长', [f'本版状态：{label}。', f'锁稿版本：v{state["script"]["version"]}。锁稿输入校验：{state["lock"]["input_hash"]}', f'成片接受区间：{state["range"][0]} 至 {state["range"][1]} 秒。', f'文稿有效长度：{e["characters"]} 字。语速：{e["rate"]:.2f} 字/分钟，依据：{e["basis"]}。', f'预计旁白：{e["audio_seconds"]:.2f} 秒。预计视频：{e["video_seconds"]:.2f} 秒。估算不能替代成片实测。']))
     audio = []
@@ -83,5 +85,5 @@ def generate(folder: Path, state, stage, version):
     txt=folder/f'本集剪辑执行文档_v{version:03d}.txt';write(txt,'\n'.join(lines))
     mapping_file=folder/'素材对应表.txt';write(mapping_file,'\n'.join(mapping))
     changes_file=folder/'剪辑审核与修改记录.txt';write(changes_file,'\n'.join(changes))
-    manifest=folder/'结构快照.json';write(manifest,{**{k:state[k] for k in ('lock','estimate','audio_tasks','assets','plan','export','accepted','events')}, 'editing_defaults': defaults})
+    manifest=folder/'结构快照.json';write(manifest,{**{k:state[k] for k in ('lock','estimate','audio_tasks','assets','plan','export','accepted','events')}, 'editing_defaults': defaults, 'cover_plan': state.get('cover_plan')})
     return [docx,txt,mapping_file,changes_file,manifest]

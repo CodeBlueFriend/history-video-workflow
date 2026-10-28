@@ -25,7 +25,7 @@ python3.12 -m venv .venv
 最后一步显示候选内容，输入编号后可补充个人想法。后续可用 `idea 集名 想法.txt` 继续追加。Windows 可使用 `.venv/Scripts/python -m history_workflow` 替代 shell 入口。
 
 - [故事线历史与重复检查](docs/story-history.md)（人物可重复，故事线不能重复，样片与测试排除）
-- [完整工作流与输入格式](docs/workflow-v5.md)
+- [完整工作流与输入格式](docs/workflow-v5.md)（含B站横版、抖音竖版两套封面规格与像素验证）
 - [可选本地配音工具](docs/local-tts.md)
 - [上游接口记录](docs/upstream.md)
 

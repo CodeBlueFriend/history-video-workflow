@@ -39,7 +39,7 @@ def parser():
     n.add_argument('--sample', action='store_true', help='样片/测试项目，不计故事历史或占用')
     for name in ('capabilities', 'topic', 'public-source'):
         q = sub.add_parser(name); q.add_argument('file', type=Path)
-    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start'):
+    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start', 'cover-plan'):
         q = sub.add_parser(name); q.add_argument('episode')
     q = sub.add_parser('run-finish', help='总结本次制作耗时和有回执的实际算力用量；排除手动配音')
     q.add_argument('episode'); q.add_argument('file', type=Path)
@@ -122,7 +122,7 @@ def main(argv=None):
             with exclusive(root):
                 episode = Episode(root, args.episode)
                 from .budget import save_preflight, start_run, finish_run
-                if episode.s.get('script') and cmd not in ('status', 'check', 'preflight', 'run-start', 'run-finish', 'story-profile'):
+                if episode.s.get('script') and cmd not in ('status', 'check', 'preflight', 'run-start', 'run-finish', 'story-profile', 'cover-plan'):
                     preview = save_preflight(episode)
                     print(json.dumps({'startup_preflight': preview}, ensure_ascii=False), file=sys.stderr)
                 if cmd == 'preflight':
@@ -133,6 +133,9 @@ def main(argv=None):
                     result = finish_run(episode, read(args.file))
                 elif cmd == 'status':
                     result = episode.s
+                elif cmd == 'cover-plan':
+                    from .covers import config as cover_config
+                    result = episode.s.get('cover_plan') or cover_config(root)
                 elif cmd == 'check':
                     result = {'lock_blockers': episode.blockers(), 'status': episode.s['status'], 'integrations': read(root/'00_项目配置/工作台配置.json')['integrations']}
                 elif cmd == 'story-profile':

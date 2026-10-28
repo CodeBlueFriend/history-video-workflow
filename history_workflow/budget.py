@@ -9,7 +9,7 @@ from .core import effective, require, read, write, now, digest
 DEFAULTS = {
     'schema': 1,
     'duration': {'characters_per_minute': 180, 'rate_range': [160, 220], 'readings': {}, 'net_intro_outro_seconds': 4.5},
-    'workload': {'body_images_per_video_minute': 0.2, 'minimum_body_images': 1, 'covers': 1,
+    'workload': {'body_images_per_video_minute': 0.2, 'minimum_body_images': 1, 'covers': 2,
                  'image_attempt_multiplier': 1.25, 'llm_input_tokens_per_character': 12,
                  'llm_output_tokens_per_character': 6},
     'workload_basis': '可调整的预算假设，不是服务商实际用量；包含创作、审核、返修的粗估，不代表模型tokenizer精确计数',
@@ -50,7 +50,7 @@ def preflight(state, settings):
     for k, v in w.items(): number(v, k)
     planned_images = {shot['image'] for shot in (state.get('plan') or {}).get('shots', []) if shot.get('image')}
     body = len(planned_images) if planned_images else max(math.ceil(w['minimum_body_images']), math.ceil(n / rate * w['body_images_per_video_minute']))
-    covers = math.ceil(w['covers'])
+    covers = len(state['cover_plan']['targets']) if state.get('cover_plan', {}).get('targets') else math.ceil(w['covers'])
     require(w['image_attempt_multiplier'] >= 1, '图片尝试倍率不能小于1')
     attempts = math.ceil((body + covers) * w['image_attempt_multiplier'])
     units = {'llm_input_tokens': math.ceil(n * w['llm_input_tokens_per_character']),
