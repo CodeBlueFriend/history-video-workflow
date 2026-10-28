@@ -14,7 +14,7 @@
 uv pip install --python .venv/bin/python -r requirements-workflow.txt
 ./scripts/history-workflow --help
 ./scripts/history-workflow init
-./scripts/history-workflow new '本集选题' --minimum 120 --maximum 180
+./scripts/history-workflow new '本集选题' --story-file examples/story.json --minimum 120 --maximum 180
 ./scripts/history-workflow list
 ```
 
@@ -186,7 +186,7 @@ demo 明确生成合成资料、纯色图片和120秒正弦信号，审核记录
 
 ## 候选选题、选择与个人想法
 
-立项时先提供至少3个不同方向的内容（程序允许2—10个），每项说明标题、内容范围和叙事角度。由创作助手或人工准备候选，程序负责展示、选择、保存；它不会假装已经联网研究或调用生成模型。可用 `examples/topic-options.json` 作为输入样例。
+立项时先提供至少3个不同方向的内容（程序允许2—10个），每项说明标题、内容范围和叙事角度，并填写`story`故事线档案（编号、人物、核心事件、冲突、转折、结局）。由创作助手或人工准备候选，程序负责展示、选择、保存；它不会假装已经联网研究或调用生成模型。可用 `examples/topic-options.json` 作为输入样例。
 
 ```sh
 ./scripts/history-workflow topic-options examples/topic-options.json
@@ -202,3 +202,7 @@ demo 明确生成合成资料、纯色图片和120秒正弦信号，审核记录
 候选批次不可覆盖，修改候选用新批次编号。立项保存完整候选快照、批次哈希和个人想法时间记录；选题角度与想法写入 `工作台状态.json` 的 `creative_brief`，创作时必须先读该字段。独立审核包也包含它，检查稿件是否落实要求，但不把用户想法当作史实证据。
 
 追加想法会失效旧审核、锁稿、时长估算、素材有效性及下游交接/成片验收状态。已锁稿时需 `--reopen-reason '修改原因'`，旧文件与历史快照仍保留。旧版 `new` 直接立项入口继续兼容；通常优先使用候选选择流程。
+
+## 故事线历史
+
+人物允许重复，故事线不可重复。选题前用`story-history`查看历史；候选导入、选择立项及锁稿时检查故事线。直接`new`需`--story-file`。已立项内容自动进入历史，旧作品可用`story-record`补录。完整格式、疑似重复处理及旧数据迁移见[故事线历史与重复检查](story-history.md)。

@@ -16,6 +16,12 @@ def parser():
     init = sub.add_parser('init', help='在工作区初始化项目；桌面仅输出生产资料')
     init.add_argument('--output-dir', type=Path, help='生产资料输出目录，默认实际桌面/历史故事长篇')
     sub.add_parser('list', help='列出本集状态')
+    sub.add_parser('story-history', help='查看已立项及补录的故事线历史；允许人物重复')
+    for name in ('story-record', 'story-check'):
+        q = sub.add_parser(name, help='补录已有故事历史' if name == 'story-record' else '检查故事线是否重复')
+        q.add_argument('file', type=Path)
+    q = sub.add_parser('story-profile', help='为旧项目补录或修改故事线档案')
+    q.add_argument('episode'); q.add_argument('file', type=Path); q.add_argument('--reopen-reason')
     q = sub.add_parser('topic-options', help='导入2—10个候选选题，等待用户选择')
     q.add_argument('file', type=Path)
     q = sub.add_parser('topic-list', help='查看指定批次候选选题')
@@ -28,6 +34,7 @@ def parser():
 
     n = sub.add_parser('new', help='复制模板创建新集')
     n.add_argument('title'); n.add_argument('--minimum', type=float, default=1800); n.add_argument('--maximum', type=float, default=1860)
+    n.add_argument('--story-file', required=True, type=Path, help='故事线JSON档案，用于重复检查')
     for name in ('capabilities', 'topic', 'public-source'):
         q = sub.add_parser(name); q.add_argument('file', type=Path)
     for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start'):
@@ -63,6 +70,9 @@ def main(argv=None):
             result = startup_guide()
         elif cmd == 'init':
             result = initialize(root, args.output_dir or desktop() / '历史故事长篇')
+        elif cmd in ('story-history', 'story-record', 'story-check'):
+            from .story_history import history, record, check
+            result = history(root) if cmd == 'story-history' else (record(root, read(args.file)) if cmd == 'story-record' else check(root, read(args.file)))
         elif cmd in ('topic-options', 'topic-list', 'topic-select'):
             from .topics import save_options, batch_path, select
             from .core import require
@@ -70,6 +80,8 @@ def main(argv=None):
                 result = save_options(root, read(args.file))
             elif cmd == 'topic-list':
                 result = read(batch_path(root, args.batch))
+                from .story_history import check
+                result['storyline_checks'] = {o['id']: check(root, o['story']) if o.get('story') else {'status': 'MISSING_PROFILE'} for o in result['options']}
             else:
                 if args.candidate is None:
                     require(sys.stdin.isatty(), '非交互调用请提供候选编号；先用 topic-list 查看选项')
@@ -81,7 +93,7 @@ def main(argv=None):
                     args.idea = '\n'.join(x for x in (args.idea, extra) if x)
                 result = select(root, args.batch, args.candidate, args.idea, args.minimum, args.maximum)
         elif cmd == 'new':
-            result = new_episode(root, args.title, args.minimum, args.maximum)
+            result = new_episode(root, args.title, args.minimum, args.maximum, story=read(args.story_file))
         elif cmd == 'list':
             result = [read(p) for p in root.glob('EP*/00_项目记录/工作台状态.json')]
             result = [{k:s[k] for k in ('episode','status','revision')} for s in result]
@@ -106,7 +118,7 @@ def main(argv=None):
             with exclusive(root):
                 episode = Episode(root, args.episode)
                 from .budget import save_preflight, start_run, finish_run
-                if episode.s.get('script') and cmd not in ('status', 'check', 'preflight', 'run-start', 'run-finish'):
+                if episode.s.get('script') and cmd not in ('status', 'check', 'preflight', 'run-start', 'run-finish', 'story-profile'):
                     preview = save_preflight(episode)
                     print(json.dumps({'startup_preflight': preview}, ensure_ascii=False), file=sys.stderr)
                 if cmd == 'preflight':
@@ -119,6 +131,9 @@ def main(argv=None):
                     result = episode.s
                 elif cmd == 'check':
                     result = {'lock_blockers': episode.blockers(), 'status': episode.s['status'], 'integrations': read(root/'00_项目配置/工作台配置.json')['integrations']}
+                elif cmd == 'story-profile':
+                    from .story_history import set_profile
+                    result = set_profile(episode, read(args.file), args.reopen_reason)
                 elif cmd == 'idea':
                     from .topics import add_idea
                     result = add_idea(episode, args.file.read_text(encoding='utf-8'), args.reopen_reason)

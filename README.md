@@ -24,6 +24,7 @@ python3.12 -m venv .venv
 
 最后一步显示候选内容，输入编号后可补充个人想法。后续可用 `idea 集名 想法.txt` 继续追加。Windows 可使用 `.venv/Scripts/python -m history_workflow` 替代 shell 入口。
 
+- [故事线历史与重复检查](docs/story-history.md)（人物可重复，故事线不能重复）
 - [完整工作流与输入格式](docs/workflow-v5.md)
 - [可选本地配音工具](docs/local-tts.md)
 - [上游接口记录](docs/upstream.md)
@@ -33,7 +34,7 @@ python3.12 -m venv .venv
 ## 验证
 
 ```sh
-.venv/bin/python -m pytest tests/test_workflow.py tests/test_budget.py tests/test_topics.py tests/test_guidance.py -q
+.venv/bin/python -m pytest tests/test_workflow.py tests/test_budget.py tests/test_topics.py tests/test_guidance.py tests/test_story_history.py -q
 ```
 
 测试使用合成数据，验证状态失效、审核门槛、选题选择、追加想法、素材交接和预算计算，不证明历史真实性、音质或最终视听质量。TTS 测试需要安装完整可选环境。

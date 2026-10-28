@@ -7,7 +7,7 @@ from history_workflow.cli import main
 @pytest.fixture
 def setup(tmp_path):
     root=tmp_path/'runtime'; initialize(root)
-    data={'id':'batch-1','options':[{'id':str(i),'title':f'候选{i}','summary':'内容范围','angle':'叙事角度'} for i in range(1,4)]}
+    data={'id':'batch-1','options':[{'id':str(i),'title':f'候选{i}','summary':'内容范围','angle':'叙事角度','story':{'storyline_id':f'test-{i}','characters':['同一人物'],'core_event':f'合成事件{i}','conflict':f'矛盾{i}','turning_points':[f'转折{i}'],'outcome':f'结局{i}','distinctness_note':'合成测试编号代表独立事件'}} for i in range(1,4)]}
     save_options(root,data)
     return root,data
 

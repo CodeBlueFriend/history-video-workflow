@@ -138,12 +138,20 @@ def exclusive(root):
                 fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
 
-def new_episode(root, title, minimum=1800, maximum=1860, brief=None):
+def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None):
     require(title and not re.search(r'[/\\<>:"|?*\x00-\x1f]', title) and title not in ('.', '..'), '选题名含非法字符')
     require(0 < minimum <= maximum and math.isfinite(maximum), '时长区间无效')
     root = Path(root)
     require((root / '00_项目配置/工作台配置.json').exists(), '请先 init')
     with exclusive(root):
+        if story is None and brief is not None:
+            story = brief.get('selected', {}).get('story')
+        story_check = None
+        if story is not None:
+            from .story_history import profile, check, ensure_distinct
+            story = profile(story)
+            story_check = check(root, story)
+            ensure_distinct(story_check)
         ids = [int(m.group(1)) for p in root.iterdir() if (m := re.match(r'EP(\d+)_', p.name))]
         name = f'EP{max(ids, default=0)+1:03d}_{title}'
         target = inside(root, name)
@@ -152,10 +160,13 @@ def new_episode(root, title, minimum=1800, maximum=1860, brief=None):
         state = {'schema': 5, 'episode': name, 'title': title, 'revision': 0, 'status': 'NEW', 'range': [minimum, maximum], 'sources': {}, 'claims': {}, 'timeline': [], 'disputes': [], 'outline': '', 'script': None, 'reviews': {}, 'issues': {}, 'lock': None, 'estimate': None, 'audio_tasks': [], 'assets': {}, 'plan': None, 'documents': [], 'handoff': None, 'export': None, 'accepted': None, 'events': []}
         if brief is not None:
             state['creative_brief'] = copy.deepcopy(brief)
+        if story is not None:
+            state['storyline'] = story
+            state['storyline_check'] = {**story_check, 'checked_at': now()}
         state['editing_defaults'] = read(root / '00_项目配置/剪辑规则配置.json')
         write(staging / '00_项目记录/工作台状态.json', state)
         staging.rename(target)
-    return {'episode': name, 'path': str(target)}
+    return {'episode': name, 'path': str(target), 'storyline_check': story_check or {'status': 'MISSING_PROFILE'}}
 
 
 def duration(path, video=False):
@@ -217,6 +228,8 @@ class Episode:
         payload = {k: self.s[k] for k in ('sources', 'claims', 'timeline', 'disputes', 'outline', 'script')}
         if 'creative_brief' in self.s:
             payload['creative_brief'] = self.s['creative_brief']
+        if 'storyline' in self.s:
+            payload['storyline'] = self.s['storyline']
         return digest(payload)
 
     def require_locked(self):
@@ -290,6 +303,8 @@ class Episode:
         payload = {k:self.s[k] for k in keys}
         if 'creative_brief' in self.s:
             payload['creative_brief'] = self.s['creative_brief']
+        if 'storyline' in self.s:
+            payload['storyline'] = self.s['storyline']
         return digest(payload)
 
     def stage_packet(self, role):
@@ -297,6 +312,7 @@ class Episode:
         if role == 'outline':
             packet['outline'] = self.s['outline']
         packet['creative_brief'] = self.s.get('creative_brief', {})
+        packet['storyline'] = self.s.get('storyline')
         packet.update(role=role, input_hash=self.stage_signature(role), instruction='只审核资料可追溯性、主张边界或提纲结构；不对尚未生成的稿件评分。')
         path = self.path / f'03_审核记录/独立任务/{role}_前置_{packet["input_hash"][:12]}.json'
         write(path, packet)
@@ -320,6 +336,7 @@ class Episode:
         require(role in ROLES and self.s['script'], '需要文稿与有效审核角色')
         packet = {'role': role, 'title': self.s['script'].get('title', self.s['title']), 'input_hash': self.signature(), 'script': self.s['script']['text'], 'paragraphs': self.s['script']['paragraphs'], 'sources': self.s['sources'], 'claims': self.s['claims'], 'timeline': self.s['timeline'], 'disputes': self.s['disputes'], 'outline': self.s['outline'], 'rubric': SCORES, 'instruction': '独立核对；结论、证据、逐项量表、问题必须实际填写。不得读取作者自评。'}
         packet['creative_brief'] = self.s.get('creative_brief', {})
+        packet['storyline'] = self.s.get('storyline')
         path = self.path / f'03_审核记录/独立任务/{role}_{self.signature()[:12]}.json'
         write(path, packet)
         return {'packet': str(path), 'input_hash': self.signature()}
@@ -422,6 +439,9 @@ class Episode:
         return errors
 
     def lock(self):
+        if self.s.get('storyline'):
+            from .story_history import check, ensure_distinct
+            ensure_distinct(check(self.root, self.s['storyline'], exclude_episode=self.s['episode']))
         errors = self.blockers()
         require(not errors, '锁稿阻断：' + '；'.join(errors))
         self.s['lock'] = {'input_hash': self.signature(), 'script_hash': digest(self.s['script']), 'time': now(), 'reviews_hash': digest(self.s['reviews']), 'issues_hash': digest(self.s['issues']), 'stage_reviews_hash': digest(self.s['stage_reviews'])}

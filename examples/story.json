@@ -1,0 +1,20 @@
+{
+  "storyline_id": "hongmen-liubang-escape",
+  "characters": [
+    "刘邦",
+    "项羽",
+    "项伯",
+    "张良"
+  ],
+  "core_event": "鸿门宴前后刘邦从项羽威胁下脱身",
+  "conflict": "项羽准备进攻，刘邦需要解除杀身危险",
+  "turning_points": [
+    "项伯夜访张良并向项羽说情",
+    "项庄舞剑受到项伯阻挡",
+    "樊哙入帐后刘邦借故离席"
+  ],
+  "outcome": "刘邦回营，张良留下辞谢",
+  "aliases": [
+    "鸿门宴刘邦脱身"
+  ]
+}

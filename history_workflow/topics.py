@@ -2,6 +2,7 @@
 import copy
 import re
 from .core import require, read, write, now, digest, exclusive, new_episode
+from .story_history import profile, check, ensure_distinct
 
 
 def batch_path(root, batch_id):
@@ -20,9 +21,16 @@ def save_options(root, data):
             require(isinstance(option.get(key), str) and option[key].strip(), '选题缺少 ' + key)
         require(option['id'] not in ids, '候选编号重复')
         ids.add(option['id'])
+        profile(option.get('story'))
     with exclusive(root):
         require(not path.exists(), '批次已存在；请用新编号保存修订，避免覆盖已选内容')
-        write(path, {**data, 'created_at': now(), 'status': 'AWAITING_USER_SELECTION'})
+        prior, checks = [], {}
+        for option in options:
+            result = check(root, option['story'], extra_records=prior)
+            ensure_distinct(result)
+            checks[option['id']] = result
+            prior.append({'id': option['id'], 'title': option['title'], 'story': option['story'], 'status': 'SAME_BATCH'})
+        write(path, {**data, 'created_at': now(), 'status': 'AWAITING_USER_SELECTION', 'storyline_checks': checks})
     return {'saved': str(path), 'batch': data['id'], 'options': options}
 
 
@@ -30,6 +38,7 @@ def select(root, batch_id, candidate_id, idea='', minimum=1800, maximum=1860):
     data = read(batch_path(root, batch_id))
     matches = [o for o in data['options'] if o['id'] == candidate_id]
     require(len(matches) == 1, '候选编号不存在')
+    profile(matches[0].get('story'))
     require(isinstance(idea, str), '个人想法必须是文本')
     brief = {'batch_id': batch_id, 'batch_hash': digest(data), 'selected': copy.deepcopy(matches[0]),
              'ideas': [{'text': idea.strip(), 'created_at': now()}] if idea.strip() else [],
