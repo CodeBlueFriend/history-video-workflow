@@ -11,6 +11,7 @@ def batch_path(root, batch_id):
 
 
 def save_options(root, data):
+    require(data.get('production_kind', 'FORMAL') in ('FORMAL', 'SAMPLE'), 'production_kind须为FORMAL或SAMPLE')
     path = batch_path(root, data.get('id'))
     options = data.get('options')
     require(isinstance(options, list) and 2 <= len(options) <= 10, '请提供2—10个候选选题')
@@ -27,14 +28,15 @@ def save_options(root, data):
         prior, checks = [], {}
         for option in options:
             result = check(root, option['story'], extra_records=prior)
-            ensure_distinct(result)
+            if data.get('production_kind') != 'SAMPLE':
+                ensure_distinct(result)
             checks[option['id']] = result
             prior.append({'id': option['id'], 'title': option['title'], 'story': option['story'], 'status': 'SAME_BATCH'})
         write(path, {**data, 'created_at': now(), 'status': 'AWAITING_USER_SELECTION', 'storyline_checks': checks})
     return {'saved': str(path), 'batch': data['id'], 'options': options}
 
 
-def select(root, batch_id, candidate_id, idea='', minimum=1800, maximum=1860):
+def select(root, batch_id, candidate_id, idea='', minimum=1800, maximum=1860, production_kind=None):
     data = read(batch_path(root, batch_id))
     matches = [o for o in data['options'] if o['id'] == candidate_id]
     require(len(matches) == 1, '候选编号不存在')
@@ -43,7 +45,8 @@ def select(root, batch_id, candidate_id, idea='', minimum=1800, maximum=1860):
     brief = {'batch_id': batch_id, 'batch_hash': digest(data), 'selected': copy.deepcopy(matches[0]),
              'ideas': [{'text': idea.strip(), 'created_at': now()}] if idea.strip() else [],
              'instruction': '选题角度与用户想法是创作要求，不是史实证据；事实主张须单独核查。'}
-    return new_episode(root, matches[0]['title'], minimum, maximum, brief=brief)
+    return new_episode(root, matches[0]['title'], minimum, maximum, brief=brief,
+                       production_kind=production_kind or data.get('production_kind', 'FORMAL'))
 
 
 def add_idea(episode, text, reason=None):

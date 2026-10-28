@@ -138,7 +138,8 @@ def exclusive(root):
                 fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
 
-def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None):
+def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None, production_kind='FORMAL'):
+    require(production_kind in ('FORMAL', 'SAMPLE'), 'production_kind须为FORMAL或SAMPLE')
     require(title and not re.search(r'[/\\<>:"|?*\x00-\x1f]', title) and title not in ('.', '..'), '选题名含非法字符')
     require(0 < minimum <= maximum and math.isfinite(maximum), '时长区间无效')
     root = Path(root)
@@ -151,7 +152,10 @@ def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None)
             from .story_history import profile, check, ensure_distinct
             story = profile(story)
             story_check = check(root, story)
-            ensure_distinct(story_check)
+            if production_kind != 'SAMPLE':
+                ensure_distinct(story_check)
+            else:
+                story_check = {'status': 'EXCLUDED_SAMPLE'}
         ids = [int(m.group(1)) for p in root.iterdir() if (m := re.match(r'EP(\d+)_', p.name))]
         name = f'EP{max(ids, default=0)+1:03d}_{title}'
         target = inside(root, name)
@@ -160,6 +164,7 @@ def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None)
         state = {'schema': 5, 'episode': name, 'title': title, 'revision': 0, 'status': 'NEW', 'range': [minimum, maximum], 'sources': {}, 'claims': {}, 'timeline': [], 'disputes': [], 'outline': '', 'script': None, 'reviews': {}, 'issues': {}, 'lock': None, 'estimate': None, 'audio_tasks': [], 'assets': {}, 'plan': None, 'documents': [], 'handoff': None, 'export': None, 'accepted': None, 'events': []}
         if brief is not None:
             state['creative_brief'] = copy.deepcopy(brief)
+        state['production_kind'] = production_kind
         if story is not None:
             state['storyline'] = story
             state['storyline_check'] = {**story_check, 'checked_at': now()}
@@ -439,7 +444,7 @@ class Episode:
         return errors
 
     def lock(self):
-        if self.s.get('storyline'):
+        if self.s.get('storyline') and self.s.get('production_kind') != 'SAMPLE':
             from .story_history import check, ensure_distinct
             ensure_distinct(check(self.root, self.s['storyline'], exclude_episode=self.s['episode']))
         errors = self.blockers()

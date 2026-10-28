@@ -29,12 +29,14 @@ def parser():
     q = sub.add_parser('topic-select', help='选择候选立项；省略候选编号时交互选择并补充想法')
     q.add_argument('batch'); q.add_argument('candidate', nargs='?'); q.add_argument('--idea', default='')
     q.add_argument('--minimum', type=float, default=1800); q.add_argument('--maximum', type=float, default=1860)
+    q.add_argument('--sample', action='store_true', help='样片/测试项目，不计故事历史或占用')
     q = sub.add_parser('idea', help='从UTF-8文本追加个人想法，失效旧审核与下游产物')
     q.add_argument('episode'); q.add_argument('file', type=Path); q.add_argument('--reopen-reason')
 
     n = sub.add_parser('new', help='复制模板创建新集')
     n.add_argument('title'); n.add_argument('--minimum', type=float, default=1800); n.add_argument('--maximum', type=float, default=1860)
     n.add_argument('--story-file', required=True, type=Path, help='故事线JSON档案，用于重复检查')
+    n.add_argument('--sample', action='store_true', help='样片/测试项目，不计故事历史或占用')
     for name in ('capabilities', 'topic', 'public-source'):
         q = sub.add_parser(name); q.add_argument('file', type=Path)
     for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start'):
@@ -91,9 +93,11 @@ def main(argv=None):
                     args.candidate = input('请输入候选编号：').strip()
                     extra = input('补充你的想法（可留空，后续可用 idea 追加）：').strip()
                     args.idea = '\n'.join(x for x in (args.idea, extra) if x)
-                result = select(root, args.batch, args.candidate, args.idea, args.minimum, args.maximum)
+                result = select(root, args.batch, args.candidate, args.idea, args.minimum, args.maximum,
+                                production_kind='SAMPLE' if args.sample else None)
         elif cmd == 'new':
-            result = new_episode(root, args.title, args.minimum, args.maximum, story=read(args.story_file))
+            result = new_episode(root, args.title, args.minimum, args.maximum, story=read(args.story_file),
+                                 production_kind='SAMPLE' if args.sample else 'FORMAL')
         elif cmd == 'list':
             result = [read(p) for p in root.glob('EP*/00_项目记录/工作台状态.json')]
             result = [{k:s[k] for k in ('episode','status','revision')} for s in result]

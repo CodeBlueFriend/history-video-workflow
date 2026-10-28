@@ -7,6 +7,11 @@ from .core import require, read, write, now, exclusive
 
 HISTORY_FILE = '01_选题库/故事线历史.json'
 FIELDS = ('storyline_id', 'core_event', 'conflict', 'outcome')
+SAMPLE_STATUSES = {'TEST_PRODUCED', 'SAMPLE', 'TEST', 'DEMO', 'SAMPLE_PRODUCED', 'TEST_EXPORTED'}
+
+
+def is_sample(data):
+    return data.get('production_kind') == 'SAMPLE' or data.get('status') in SAMPLE_STATUSES
 
 
 def normalize(text):
@@ -30,23 +35,30 @@ def history(root):
     path = root / HISTORY_FILE
     rows = read(path) if path.exists() else []
     require(isinstance(rows, list), '故事线历史必须为数组')
-    rows = copy.deepcopy(rows)
-    covered = {r.get('episode') for r in rows}
+    states = [(p, read(p)) for p in sorted(root.glob('EP*/00_项目记录/工作台状态.json'))]
+    excluded = {r['episode'] for r in rows if is_sample(r) and r.get('episode')}
+    excluded.update(state['episode'] for _, state in states if is_sample(state))
+    rows = [copy.deepcopy(r) for r in rows if not is_sample(r) and r.get('episode') not in excluded]
+    active = [r for r in rows if r['status'] not in ('PRODUCED', 'PUBLISHED', 'ACCEPTED', 'EXPORTED')]
+    rows = [r for r in rows if r['status'] in ('PRODUCED', 'PUBLISHED', 'ACCEPTED', 'EXPORTED')]
+    covered = {r.get('episode') for r in [*rows, *active]}
     missing = []
-    for path in sorted(root.glob('EP*/00_项目记录/工作台状态.json')):
-        state = read(path)
+    for path, state in states:
+        if is_sample(state) or state['episode'] in excluded:
+            continue
         if not state.get('storyline'):
             if state['episode'] not in covered:
                 missing.append(state['episode'])
             continue
         status = 'ACCEPTED' if state.get('accepted') else ('EXPORTED' if state.get('export') else 'IN_PRODUCTION')
-        rows.append({'id': state['episode'], 'episode': state['episode'], 'title': state['title'],
+        target = rows if status in ('ACCEPTED', 'EXPORTED') else active
+        target.append({'id': state['episode'], 'episode': state['episode'], 'title': state['title'],
                      'status': status, 'story': state['storyline'], 'source': str(path)})
         for i, old in enumerate(state.get('storyline_history', []), 1):
-            rows.append({'id': f'{state["episode"]}#previous-{i}', 'episode': state['episode'],
+            active.append({'id': f'{state["episode"]}#previous-{i}', 'episode': state['episode'],
                          'title': state['title'], 'status': 'PREVIOUS_STORYLINE', 'story': old['story']})
-    return {'records': rows, 'unprofiled_episodes': missing,
-            'note': '人物重复允许；同一核心事件、冲突与情节发展的重复需排除。未补录的旧集无法完整查重。'}
+    return {'records': rows, 'active_records': active, 'unprofiled_episodes': missing,
+            'note': '样片/测试完全排除。records为正式制作历史，active_records为正式项目占用检查；人物重复允许。未补录的旧集无法完整查重。'}
 
 
 def event_keys(p):
@@ -80,7 +92,8 @@ def compare(candidate, rows):
 def check(root, data, exclude_episode=None, extra_records=()):
     candidate = profile(data)
     ledger = history(root)
-    rows = [r for r in ledger['records'] if r.get('episode') != exclude_episode] if exclude_episode else ledger['records']
+    rows = [*ledger['records'], *ledger['active_records']]
+    rows = [r for r in rows if r.get('episode') != exclude_episode] if exclude_episode else rows
     duplicates, possible = compare(candidate, [*rows, *extra_records])
     return {'status': 'DUPLICATE' if duplicates else ('REVIEW_REQUIRED' if possible else 'NO_MATCH_FOUND'),
             'duplicates': duplicates, 'possible_matches': possible,
@@ -97,12 +110,17 @@ def ensure_distinct(result):
 
 def record(root, data):
     require(isinstance(data, dict), '历史记录需要对象')
+    require(data.get('production_kind', 'FORMAL') in ('FORMAL', 'SAMPLE'), 'production_kind须为FORMAL或SAMPLE')
+    require(not is_sample(data), '样片和测试不进入故事历史，请保留在测试项目或素材归档中')
     for key in ('id', 'title', 'status', 'evidence'):
         require(isinstance(data.get(key), str) and data[key].strip(), '历史记录缺少 ' + key)
     require('episode' not in data or (isinstance(data['episode'], str) and re.fullmatch(r'EP\d+_[^/\\]+', data['episode'])),
             'episode需要有效集名，例如EP001_本集标题')
     data = {**copy.deepcopy(data), 'story': profile(data.get('story')), 'recorded_at': now()}
     with exclusive(root):
+        if data.get('episode'):
+            state_path = root / data['episode'] / '00_项目记录/工作台状态.json'
+            require(not state_path.exists() or not is_sample(read(state_path)), '样片项目不进入故事历史')
         path = root / HISTORY_FILE
         rows = read(path) if path.exists() else []
         require(not any(r['id'] == data['id'] for r in rows), '历史记录编号已存在；保留原记录，补充内容使用新编号')
@@ -114,7 +132,8 @@ def record(root, data):
 def set_profile(episode, data, reason=None):
     candidate = profile(data)
     result = check(episode.root, candidate, exclude_episode=episode.s['episode'])
-    ensure_distinct(result)
+    if not is_sample(episode.s):
+        ensure_distinct(result)
     episode.editable(reason)
     if episode.s.get('storyline'):
         episode.s.setdefault('storyline_history', []).append({'story': copy.deepcopy(episode.s['storyline']), 'time': now()})

@@ -44,7 +44,7 @@ def test_character_reuse_and_different_story_allowed(root):
     past(root)
     assert check(root,other())['status']=='NO_MATCH_FOUND'
     name=new_episode(root,'刘邦的另一件事',story=other())['episode']
-    assert history(root)['records'][-1]['episode']==name
+    assert history(root)['active_records'][-1]['episode']==name
     assert check(root,other())['status']=='DUPLICATE'
 
 
@@ -70,7 +70,7 @@ def test_selection_rechecks_history_after_batch_saved(root):
     new_episode(root,'另一项目已先占用此故事',story=story())
     with pytest.raises(WorkflowError, match='故事线重复'):select(root,'batch','A')
     select(root,'batch','B')
-    assert len(history(root)['records'])==2
+    assert len(history(root)['active_records'])==2
 
 
 def test_duplicates_within_candidate_batch_and_missing_profile_rejected(root):
@@ -109,3 +109,58 @@ def test_late_history_entry_blocks_lock(root):
     e=Episode(root,new_episode(root,'当前项目',story=story())['episode'])
     past(root)
     with pytest.raises(WorkflowError,match='故事线重复'):e.lock()
+
+
+def test_sample_excluded_even_after_export_and_acceptance(root):
+    name=new_episode(root,'样片',story=story(),production_kind='SAMPLE')['episode']
+    e=Episode(root,name);e.s.update(export={'file':'sample.mp4'},accepted={'test':True});e.save('测试样片状态')
+    assert history(root)['records']==[] and history(root)['active_records']==[]
+    assert check(root,story())['status']=='NO_MATCH_FOUND'
+    new_episode(root,'正式故事',story=story())
+    assert check(root,story())['status']=='DUPLICATE'
+    # 已有正式故事仍可用作测试素材：
+    new_episode(root,'又一份样片',story=story(),production_kind='SAMPLE')
+
+
+def test_sample_legacy_record_ignored_and_new_import_rejected(root):
+    from history_workflow.core import write
+    from history_workflow.story_history import HISTORY_FILE
+    row={'id':'sample-old','title':'旧样片','status':'TEST_PRODUCED','evidence':'测试','story':story()}
+    with pytest.raises(WorkflowError,match='样片和测试'):record(root,row)
+    write(root/HISTORY_FILE,[row])
+    assert check(root,story())['status']=='NO_MATCH_FOUND'
+    assert not history(root)['records']
+
+
+def test_unprofiled_sample_is_not_a_history_gap(root):
+    new_episode(root,'无故事档案的旧样片',production_kind='SAMPLE')
+    assert history(root)['unprofiled_episodes']==[]
+
+
+def test_cli_sample_option(root,capsys):
+    from pathlib import Path
+    path=Path(__file__).resolve().parents[1]/'examples/story.json'
+    assert main(['--root',str(root),'new','测试样片','--story-file',str(path),'--sample'])==0
+    assert not history(root)['records'] and not history(root)['active_records']
+
+
+def test_sample_record_does_not_hide_unrelated_formal_history(root):
+    from history_workflow.core import write
+    from history_workflow.story_history import HISTORY_FILE
+    write(root/HISTORY_FILE,[
+        {'id':'sample','title':'样片','status':'TEST_PRODUCED','story':story()},
+        {'id':'formal','title':'正式作品','status':'PRODUCED','story':other()}])
+    assert len(history(root)['records'])==1
+    assert check(root,other())['status']=='DUPLICATE'
+    assert check(root,story())['status']=='NO_MATCH_FOUND'
+
+
+def test_formal_labeled_record_linked_to_sample_still_excluded(root):
+    from history_workflow.core import write
+    from history_workflow.story_history import HISTORY_FILE
+    name=new_episode(root,'样片项目',story=story(),production_kind='SAMPLE')['episode']
+    row={'id':'bad-import','episode':name,'title':'错误标记','status':'PRODUCED','evidence':'测试','story':story()}
+    with pytest.raises(WorkflowError,match='样片项目'):record(root,row)
+    write(root/HISTORY_FILE,[row])
+    assert not history(root)['records']
+    assert check(root,story())['status']=='NO_MATCH_FOUND'
