@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "layout_count": 2,
   "targets": {
     "BILIBILI": {
@@ -21,5 +21,20 @@
   },
   "policy": "两套独立构图、同一故事身份与标题；不得拉伸或直接硬裁横版。重要文字与人物在居中安全区。",
   "verification": "项目交付规格；不是声称平台所有场景只接受此尺寸。发布前按实际上传页复查裁切与提示。",
-  "generation_stage": "锁稿后生成；可与手动网页配音独立推进；交付两套并实测像素尺寸。"
+  "generation_stage": "锁稿后生成；可与手动网页配音独立推进；交付两套并实测像素尺寸。",
+  "text_policy": {
+    "allowed_roles": [
+      "main_title",
+      "subtitle"
+    ],
+    "subtitle_optional": true,
+    "extra_text_allowed": false,
+    "instruction": "只显示主标题；有副标题时可显示副标题。不得另加来源说明、情境标签、页脚、角标或装饰小字。",
+    "forbidden_examples": [
+      "明人笔记里的两幕",
+      "历史情境示意",
+      "历史情景示意"
+    ],
+    "notes_location": "资料性质与二创说明保留在项目资料和发布说明中，不写在封面上。"
+  }
 }
