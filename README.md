@@ -4,6 +4,12 @@
 
 这是本地命令行工作台，不是全自动视频生成服务。创作、联网研究、独立审稿、网页配音和视频剪辑需由人工或外部工具实际执行，再导入记录。附带可选的 Qwen3-TTS 工具；主工作流无需下载模型。
 
+## 每次启动阅读建议
+
+每次运行工作台会显示素材检索与故事筛选建议：优先名人关联的具体故事，结合地方志、笔记野史、文集书信等资料，从故事卡筛出候选供使用者选择。建议无需确认；普通命令的提示写入 stderr，stdout 仍保留 JSON。
+
+完整阅读：[素材检索与故事选题建议](docs/story-sourcing.md)。无需初始化也可运行 `./scripts/history-workflow startup-guide`；`--help` 同样显示建议。
+
 ## 快速开始
 
 需要 Python 3.12。接收媒体、测量音视频时需要 ffmpeg/ffprobe。
@@ -27,7 +33,7 @@ python3.12 -m venv .venv
 ## 验证
 
 ```sh
-.venv/bin/python -m pytest tests/test_workflow.py tests/test_budget.py tests/test_topics.py -q
+.venv/bin/python -m pytest tests/test_workflow.py tests/test_budget.py tests/test_topics.py tests/test_guidance.py -q
 ```
 
 测试使用合成数据，验证状态失效、审核门槛、选题选择、追加想法、素材交接和预算计算，不证明历史真实性、音质或最终视听质量。TTS 测试需要安装完整可选环境。

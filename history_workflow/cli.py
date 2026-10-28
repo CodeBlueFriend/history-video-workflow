@@ -4,12 +4,15 @@ import sys
 import subprocess
 from pathlib import Path
 from .core import Episode, WorkflowError, default_root, desktop, exclusive, initialize, new_episode, read, validate_caps, write
+from .guidance import startup_guide, startup_text
 
 
 def parser():
-    p = argparse.ArgumentParser(description='历史长视频 V5 本地工作台；外部创作、审核与剪辑采用显式文件交接')
+    p = argparse.ArgumentParser(description='历史长视频 V5 本地工作台；外部创作、审核与剪辑采用显式文件交接',
+                                epilog=startup_text(), formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--root', type=Path, help='项目运行目录；默认当前程序工作区下 production')
     sub = p.add_subparsers(dest='command', required=True)
+    sub.add_parser('startup-guide', help='单独阅读素材检索、故事筛选与选题建议；无需初始化')
     init = sub.add_parser('init', help='在工作区初始化项目；桌面仅输出生产资料')
     init.add_argument('--output-dir', type=Path, help='生产资料输出目录，默认实际桌面/历史故事长篇')
     sub.add_parser('list', help='列出本集状态')
@@ -46,11 +49,19 @@ def parser():
 
 
 def main(argv=None):
-    args = parser().parse_args(argv)
+    command_parser = parser()
+    if not (argv if argv is not None else sys.argv[1:]):
+        command_parser.print_help()
+        return 0
+    args = command_parser.parse_args(argv)
     try:
         root = args.root.expanduser().resolve() if args.root else default_root()
         cmd = args.command
-        if cmd == 'init':
+        if cmd != 'startup-guide':
+            print(startup_text(), file=sys.stderr)
+        if cmd == 'startup-guide':
+            result = startup_guide()
+        elif cmd == 'init':
             result = initialize(root, args.output_dir or desktop() / '历史故事长篇')
         elif cmd in ('topic-options', 'topic-list', 'topic-select'):
             from .topics import save_options, batch_path, select

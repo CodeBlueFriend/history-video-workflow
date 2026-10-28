@@ -6,6 +6,8 @@
 
 ## 启动
 
+每次正常执行命令时，工作台会在 stderr 显示[素材检索与故事选题建议](story-sourcing.md)，供使用者阅读；stdout 保留命令 JSON。建议项不会新增确认步骤或自动检索。`--help` 同样显示，可在初始化前用 `./scripts/history-workflow startup-guide` 单独查看。
+
 在本项目目录执行：
 
 ```sh
