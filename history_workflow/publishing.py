@@ -3,7 +3,7 @@ import copy
 import re
 import shutil
 import uuid
-from .core import digest, file_hash, inside, now, read, require, write
+from .core import WorkflowError, digest, file_hash, inside, now, read, require, write
 
 PLATFORMS = {
     'DOUYIN':'抖音', 'BILIBILI':'B站', 'XIGUA':'西瓜视频', 'TOUTIAO':'今日头条',
@@ -77,6 +77,14 @@ def build(episode, data=None):
     rules_path=episode.root/'00_项目配置/平台推荐规则索引.json'
     rules=read(rules_path) if rules_path.exists() else {'platforms':{}}
     analysis['recommendation_rules']=rules
+    article={'status':'NOT_PREPARED'}
+    if episode.s.get('toutiao_article_packages'):
+        from .articles import check_article
+        try:
+            article=check_article(episode)
+        except WorkflowError as exc:
+            article={'status':'STALE_NEEDS_ADAPTATION','reason':str(exc)}
+    analysis['toutiao_article']=article
     complete = all(content[k] for k in ('body', 'short_body', 'content_note'))
     return {'schema': 2, 'status': 'COPY_READY_FOR_PLATFORM_REVIEW' if complete else 'DRAFT_NEEDS_COPY',
             'title': title, 'copy': content, 'settings': settings,
@@ -112,6 +120,12 @@ def save_package(episode, data=None):
             out=folder/'封面'/spec['filename']; out.parent.mkdir(parents=True,exist_ok=True)
             shutil.copy2(source,out)
             break
+    article=bundle['tag_analysis']['toutiao_article']
+    if article.get('files'):
+        for item in article['files']:
+            source=inside(episode.path,item['path'])
+            target=folder/'今日头条文字版'/source.name;target.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copy2(source,target)
     from .covers import DEFAULTS as COVER_DEFAULTS
     cover_labels={k:v['label'] for k,v in {**COVER_DEFAULTS['targets'],**COVER_DEFAULTS['optional_targets'],**(episode.s.get('cover_plan') or {}).get('targets',{})}.items()}
     lines=['# 本集发布资料', '', '完整视频标题：'+bundle['title'], '',
@@ -143,6 +157,10 @@ def save_package(episode, data=None):
         for item in report['hot_matches']: lines.append('- 可匹配热点：'+item['tag']+'；'+item['reason']+'；'+item['url'])
         for item in report['rejected']: lines.append('- 未采用线索：'+item['tag']+'；'+item['reason']+'；'+item['url'])
         lines.append('')
+    article_label={'NOT_PREPARED':'尚未制作', 'STALE_NEEDS_ADAPTATION':'需按当前稿件重新核对', 'READY_FOR_MANUAL_UPLOAD':'文章已就绪，视频已通过最终验收', 'ARTICLE_READY_VIDEO_REVIEW_PENDING':'文章已就绪，视频最终复审仍待完成'}.get(article['status'],article['status'])
+    lines += ['## 今日头条文字版专项内容', '', '状态：'+article_label,
+              '完整文章、排版HTML及结构化数据：见本包的今日头条文字版文件夹。' if article.get('files') else '文字版尚未就绪；运行article-packet读取改写依据，再用article-package导入审核后的文章。',
+              '手动发布：打开HTML，分别复制标题和排版正文；上传后复核段落、标题、内容说明及封面。当前未执行上传。', '']
     lines += ['## 发布前检查', '', bundle['notice'], bundle['tag_analysis']['notice']]
     write(folder / '发布资料汇总.md', '\n'.join(lines)+'\n')
     record = {'version': version, 'time': now(), 'input_hash': bundle['input_hash'],

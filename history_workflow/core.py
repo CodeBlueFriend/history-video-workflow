@@ -772,7 +772,11 @@ class Episode:
         self.s['accepted'] = {**data, 'time': now()}
         self.document('FINAL')
         self.s['status'] = 'FINAL_ACCEPTED'
-        return self.save('成片复审及文档定版')
+        result=self.save('成片复审及文档定版')
+        from .articles import after_completion
+        result['toutiao_article']=after_completion(self)
+        result['revision']=self.s['revision']
+        return result
 
 
 def validate_caps(data):

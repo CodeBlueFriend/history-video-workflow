@@ -203,6 +203,7 @@ def test_export_is_not_acceptance(ep,tmp_path,monkeypatch):
     with pytest.raises(WorkflowError): ep.accept({'video_hash':ep.s['export']['video']['sha256']})
     ep.accept({'video_hash':ep.s['export']['video']['sha256'],'reviewer':'test','evidence':'test','checks':{k:True for k in FINAL_CHECKS},'execution_matches_document':True})
     assert ep.s['status']=='FINAL_ACCEPTED' and ep.s['documents'][-1]['stage']=='FINAL'
+    assert ep.s['toutiao_article_task']['status']=='NEEDS_ADAPTATION'
 
 
 def test_non_destructive_init(ep):

@@ -39,7 +39,7 @@ def parser():
     n.add_argument('--sample', action='store_true', help='样片/测试项目，不计故事历史或占用')
     for name in ('capabilities', 'topic', 'public-source'):
         q = sub.add_parser(name); q.add_argument('file', type=Path)
-    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start', 'cover-status', 'publication-check'):
+    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start', 'cover-status', 'publication-check', 'article-check', 'article-packet'):
         q = sub.add_parser(name); q.add_argument('episode')
     q = sub.add_parser('cover-plan', help='查看本集封面快照；--refresh显式采用当前默认规格并保留历史')
     q.add_argument('episode'); q.add_argument('--refresh', action='store_true')
@@ -49,6 +49,8 @@ def parser():
     q.add_argument('episode')
     q = sub.add_parser('publication-package', help='生成各平台本地发布文案包；标题与视频一致，不执行发布')
     q.add_argument('episode'); q.add_argument('--file', type=Path, help='导入编辑后的文案JSON；省略时复用文案或建立待填写草稿')
+    q = sub.add_parser('article-package', help='今日头条文字版专项改写与排版；无输入时建立任务，未执行上传')
+    q.add_argument('episode'); q.add_argument('--file', type=Path)
     q = sub.add_parser('run-finish', help='总结本次制作耗时和有回执的实际算力用量；排除手动配音')
     q.add_argument('episode'); q.add_argument('file', type=Path)
     q = sub.add_parser('content', help='导入资料、提纲或文稿；不自动生成历史事实')
@@ -157,6 +159,15 @@ def main(argv=None):
                 elif cmd == 'publication-package':
                     from .publishing import save_package
                     result = save_package(episode, read(args.file) if args.file else None)
+                elif cmd == 'article-package':
+                    from .articles import save_article
+                    result = save_article(episode, read(args.file) if args.file else None)
+                elif cmd == 'article-check':
+                    from .articles import check_article
+                    result = check_article(episode)
+                elif cmd == 'article-packet':
+                    from .articles import packet
+                    result = packet(episode)
                 elif cmd == 'publication-check':
                     from .publishing import check_package
                     result = check_package(episode)

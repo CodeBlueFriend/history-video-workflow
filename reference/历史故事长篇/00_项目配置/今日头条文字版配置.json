@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "enabled": true,
+  "trigger": "FINAL_ACCEPTED",
+  "title_policy": "文章完整标题与视频一致；简介吸引句和分节标题单列。",
+  "adaptation_policy": "从锁稿改写为完整阅读文章；先铺垫背景，保留人物关系、因果和必要的不确定性。去掉口播提示、听觉重复及镜头指令，短段落配小标题，不逐字搬运字幕。",
+  "layout": {
+    "font_size_px": 18,
+    "line_height": 1.9,
+    "max_width_px": 760
+  },
+  "formats": [
+    "markdown",
+    "html",
+    "json"
+  ],
+  "upload": {
+    "mode": "MANUAL",
+    "automatic_enabled": false,
+    "adapter": null
+  },
+  "delivery": "与封面及视频发布资料集中到08_发布包，文章正文单列专项文件夹。"
+}

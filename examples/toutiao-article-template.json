@@ -1,0 +1,15 @@
+{
+  "basis_hash": "从当前article-packet复制basis_hash",
+  "title": "与当前视频完整标题逐字一致",
+  "subtitle": "可选的文章导语",
+  "lead": ["先交代故事背景、人物关系和发生了什么变化。"],
+  "sections": [{"heading": "第一节的小标题", "paragraphs": ["在这里填写已经实际改写和核对的段落，不直接复制字幕。"]}],
+  "content_note": "填写本集真实的来源性质、二创边界和AI辅助情况。",
+  "source_ids": ["从当前article-packet选择实际来源编号"],
+  "tags": ["历史故事"],
+  "review": {
+    "reviewer": "填写实际执行者",
+    "evidence": "填写核对、返修和Humanizer实际依据，完成后才改checks",
+    "checks": {"faithful": false, "readable": false, "uncertainty_preserved": false, "humanizer": false}
+  }
+}
