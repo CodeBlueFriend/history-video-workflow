@@ -21,6 +21,9 @@ def generate(folder: Path, state, stage, version):
     if state.get('cover_plan'):
         labels = '、'.join(spec['label'] for spec in state['cover_plan']['targets'].values())
         sections.append(('平台封面任务', [labels + '分别构图；锁稿后可与配音独立推进，导出后逐套核验像素尺寸。', pretty(state['cover_plan'])]))
+    if state.get('visual_policy'):
+        from .visuals import report
+        sections.append(('正文图片与关键画面规划', [pretty(report(state))]))
     e = state['estimate']
     sections.append(('版本与时长', [f'本版状态：{label}。', f'锁稿版本：v{state["script"]["version"]}。锁稿输入校验：{state["lock"]["input_hash"]}', f'成片接受区间：{state["range"][0]} 至 {state["range"][1]} 秒。', f'文稿有效长度：{e["characters"]} 字。语速：{e["rate"]:.2f} 字/分钟，依据：{e["basis"]}。', f'预计旁白：{e["audio_seconds"]:.2f} 秒。预计视频：{e["video_seconds"]:.2f} 秒。估算不能替代成片实测。']))
     audio = []

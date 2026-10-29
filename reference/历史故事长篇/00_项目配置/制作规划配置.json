@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "duration_seconds": {
+    "minimum": 900,
+    "maximum": 3600
+  },
+  "images": {
+    "per_video_minute": 1.5,
+    "minimum": 12,
+    "enforce_from_seconds": 300,
+    "required_roles": [
+      "SETTING",
+      "KEY_EVENT",
+      "TURNING_POINT",
+      "OUTCOME"
+    ],
+    "role_labels": {
+      "SETTING": "开场环境与人物关系",
+      "KEY_EVENT": "核心事件",
+      "TURNING_POINT": "关键转折",
+      "OUTCOME": "结局与后果"
+    },
+    "max_continuous_image_seconds": 120
+  },
+  "policy": "按故事语义规划图片；数量是资源基准，不是定时切图指令。关键情节由创作者逐段判断，实际成图及镜头映射须核验。少图或长图需记录原因及复核，不能用拆运动段冒充新图片。"
+}

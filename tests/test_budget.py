@@ -40,8 +40,10 @@ def test_run_receipts_and_unknown_actual_cost(tmp_path):
     assert result['wall_seconds']>=0 and result['id']==run['id']
     with pytest.raises(WorkflowError):finish_run(ep,{})
 
-def test_current_shot_plan_overrides_rough_image_count():
+def test_sparse_plan_cannot_reduce_script_image_budget():
     s=state();s['plan']={'shots':[{'image':'IMG001'},{'image':'IMG001'},{'image':'IMG002'}]}
     p=preflight(s,DEFAULTS)
-    assert p['workload']['body_images']==2
-    assert p['image_count_basis']=='CURRENT_SHOT_PLAN'
+    assert p['workload']['body_images']==46
+    assert p['planned_body_images']==2
+    assert p['additional_body_images_needed']==44
+    assert p['image_count_basis']=='MAX_OF_PLAN_AND_SCRIPT_BUDGET'

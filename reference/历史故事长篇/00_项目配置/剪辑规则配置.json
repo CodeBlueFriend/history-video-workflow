@@ -1,5 +1,5 @@
 {
-  "rule_version": "4.0-design",
+  "rule_version": "5.1-user-v005-visual-resources",
   "parameter_status": "UNTESTED_STARTING_VALUES",
   "motion": {
     "default": "natural_slow_motion",
@@ -60,9 +60,12 @@
     "motion_percent_target": null,
     "metric_status": "NOT_MEASURED",
     "do_not_pass_on_motion_ratio_alone": true,
-    "source_image_budget_unchanged": true,
+    "source_image_budget_unchanged": false,
     "long_single_image_sample_required": true,
     "require_full_body_timeline_coverage": true,
-    "unreviewed_static_exceptions_block_acceptance": true
-  }
+    "unreviewed_static_exceptions_block_acceptance": true,
+    "image_resources_policy": "按制作规划配置增加正文图片，关键情节必须配图并映射镜头",
+    "image_resources_validation": "资源规划规则已实现；具体新片仍须生成、目检及通看，不沿用旧样片验证"
+  },
+  "updated_at": "2026-10-29T09:59:23.585643+00:00"
 }

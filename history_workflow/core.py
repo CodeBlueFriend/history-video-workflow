@@ -138,11 +138,16 @@ def exclusive(root):
                 fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
 
-def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None, production_kind='FORMAL'):
+def new_episode(root, title, minimum=None, maximum=None, brief=None, story=None, production_kind='FORMAL'):
     require(production_kind in ('FORMAL', 'SAMPLE'), 'production_kind须为FORMAL或SAMPLE')
     require(title and not re.search(r'[/\\<>:"|?*\x00-\x1f]', title) and title not in ('.', '..'), '选题名含非法字符')
-    require(0 < minimum <= maximum and math.isfinite(maximum), '时长区间无效')
     root = Path(root)
+    from .visuals import config as visual_config
+    visual_policy=visual_config(root)
+    minimum=visual_policy['duration_seconds']['minimum'] if minimum is None else minimum
+    maximum=visual_policy['duration_seconds']['maximum'] if maximum is None else maximum
+    require(0 < minimum <= maximum and math.isfinite(maximum), '时长区间无效')
+    require(maximum<=3600 or production_kind=='SAMPLE', '正式视频时长上限为60分钟')
     require((root / '00_项目配置/工作台配置.json').exists(), '请先 init')
     with exclusive(root):
         if story is None and brief is not None:
@@ -165,6 +170,7 @@ def new_episode(root, title, minimum=1800, maximum=1860, brief=None, story=None,
         if brief is not None:
             state['creative_brief'] = copy.deepcopy(brief)
         state['production_kind'] = production_kind
+        state['visual_policy'] = copy.deepcopy(visual_policy)
         if story is not None:
             state['storyline'] = story
             state['storyline_check'] = {**story_check, 'checked_at': now()}
@@ -602,6 +608,8 @@ class Episode:
             require(shot.get('image') in self.s['assets'] and self.s['assets'][shot['image']]['kind'] == 'image', '镜头缺少源图片')
             require(shot.get('paragraphs') and set(shot['paragraphs']) <= {p['id'] for p in self.s['script']['paragraphs']}, '镜头段落映射无效')
             require(shot.get('motion') and shot.get('purpose') and shot.get('check_method'), '镜头缺少运动、目的或检查方法')
+        from .visuals import check as check_visuals
+        check_visuals(self.s,data)
         self.s['plan'] = data
         self.s['handoff'] = self.s['export'] = self.s['accepted'] = None
         return self.save('更新镜头与转场计划')
@@ -636,10 +644,14 @@ class Episode:
             cursor = max(cursor, stop)
             previous = kid
         require(abs(cursor-end) <= 0.05, '画面未覆盖完整旁白')
+        from .visuals import check as check_visuals
+        check_visuals(self.s,plan,timed=True)
         return {'audio_seconds': end, 'covered_seconds': cursor}
 
     def production_hash(self):
-        return digest({k:self.s[k] for k in ('lock', 'estimate', 'audio_tasks', 'assets', 'plan')})
+        payload={k:self.s[k] for k in ('lock', 'estimate', 'audio_tasks', 'assets', 'plan')}
+        if 'visual_policy' in self.s:payload['visual_policy']=self.s['visual_policy']
+        return digest(payload)
 
     def document(self, stage):
         self.require_locked()

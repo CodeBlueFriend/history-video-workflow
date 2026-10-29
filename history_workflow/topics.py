@@ -36,7 +36,7 @@ def save_options(root, data):
     return {'saved': str(path), 'batch': data['id'], 'options': options}
 
 
-def select(root, batch_id, candidate_id, idea='', minimum=1800, maximum=1860, production_kind=None):
+def select(root, batch_id, candidate_id, idea='', minimum=None, maximum=None, production_kind=None):
     data = read(batch_path(root, batch_id))
     matches = [o for o in data['options'] if o['id'] == candidate_id]
     require(len(matches) == 1, '候选编号不存在')
