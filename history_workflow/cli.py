@@ -39,8 +39,10 @@ def parser():
     n.add_argument('--sample', action='store_true', help='样片/测试项目，不计故事历史或占用')
     for name in ('capabilities', 'topic', 'public-source'):
         q = sub.add_parser(name); q.add_argument('file', type=Path)
-    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start', 'cover-plan', 'publication-check'):
+    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start', 'cover-status', 'publication-check'):
         q = sub.add_parser(name); q.add_argument('episode')
+    q = sub.add_parser('cover-plan', help='查看本集封面快照；--refresh显式采用当前默认规格并保留历史')
+    q.add_argument('episode'); q.add_argument('--refresh', action='store_true')
     q = sub.add_parser('publication-package', help='生成各平台本地发布文案包；标题与视频一致，不执行发布')
     q.add_argument('episode'); q.add_argument('--file', type=Path, help='导入编辑后的文案JSON；省略时复用文案或建立待填写草稿')
     q = sub.add_parser('run-finish', help='总结本次制作耗时和有回执的实际算力用量；排除手动配音')
@@ -136,8 +138,11 @@ def main(argv=None):
                 elif cmd == 'status':
                     result = episode.s
                 elif cmd == 'cover-plan':
-                    from .covers import config as cover_config
-                    result = episode.s.get('cover_plan') or cover_config(root)
+                    from .covers import config as cover_config, refresh_plan
+                    result = refresh_plan(episode) if args.refresh else episode.s.get('cover_plan') or cover_config(root)
+                elif cmd == 'cover-status':
+                    from .covers import delivery_status
+                    result = delivery_status(episode.s)
                 elif cmd == 'publication-package':
                     from .publishing import save_package
                     result = save_package(episode, read(args.file) if args.file else None)

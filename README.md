@@ -30,7 +30,7 @@ python3.12 -m venv .venv
 
 - [故事线历史与重复检查](docs/story-history.md)（人物可重复，故事线不能重复，样片与测试排除）
 - [说书式口播编写规则](docs/workflow-v5.md#说书式口播编写)（背景铺垫、人物入场、情境二创与口播/考据分开）
-- [完整工作流与输入格式](docs/workflow-v5.md)（含B站横版、抖音竖版两套封面规格与像素验证）
+- [完整工作流与输入格式](docs/workflow-v5.md)（含B站横向、抖音横向及竖向三套封面规格与像素验证）
 - [可选本地配音工具](docs/local-tts.md)
 - [上游接口记录](docs/upstream.md)
 
