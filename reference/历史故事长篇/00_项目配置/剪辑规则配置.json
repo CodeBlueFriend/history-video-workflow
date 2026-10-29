@@ -51,7 +51,9 @@
     "check_subject_position_scale_direction_brightness": true,
     "double_face_ghosting_requires_change": true,
     "audio_timeline_unchanged": true,
-    "overlap_not_subtracted_twice": true
+    "overlap_not_subtracted_twice": true,
+    "fade_must_fit_actual_overlap_frames": true,
+    "verify_adjacent_boundary_frames": true
   },
   "quality": {
     "protect_subtitles_and_subjects": true,
