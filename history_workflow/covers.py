@@ -4,13 +4,14 @@ from .core import now, read, require
 
 ALIASES = {'BILIBILI':'LANDSCAPE_16_9', 'DOUYIN':'PORTRAIT_3_4', 'DOUYIN_LANDSCAPE':'LANDSCAPE_4_3'}
 DEFAULTS = {
-    'version': 4, 'layout_count': 3,
+    'version': 5, 'layout_count': 4,
     'targets': {
         'LANDSCAPE_16_9': {'label':'通用横屏封面16:9', 'width':1920, 'height':1080, 'ratio':'16:9', 'filename':'通用横屏封面16比9.png'},
         'PORTRAIT_3_4': {'label':'通用竖屏封面3:4', 'width':1080, 'height':1440, 'ratio':'3:4', 'filename':'通用竖屏封面3比4.png'},
-        'LANDSCAPE_4_3': {'label':'通用横屏封面4:3', 'width':1440, 'height':1080, 'ratio':'4:3', 'filename':'通用横屏封面4比3.png'}},
-    'optional_targets': {'PORTRAIT_9_16': {'label':'通用竖屏封面9:16', 'width':1080, 'height':1920, 'ratio':'9:16', 'filename':'通用竖屏封面9比16.png'}},
-    'policy':'按比例命名和复用；默认三套，9:16按需启用。不得拉伸或硬裁造成文字人物缺失。',
+        'LANDSCAPE_4_3': {'label':'通用横屏封面4:3', 'width':1440, 'height':1080, 'ratio':'4:3', 'filename':'通用横屏封面4比3.png'},
+        'PORTRAIT_9_16': {'label':'通用竖屏封面9:16', 'width':1080, 'height':1920, 'ratio':'9:16', 'filename':'通用竖屏封面9比16.png'}},
+    'optional_targets': {},
+    'policy':'按比例命名和复用；默认四套，含9:16竖屏。不得拉伸或硬裁造成文字人物缺失。',
     'text_policy': {
         'allowed_roles': ['main_title', 'subtitle'],
         'subtitle_optional': True,

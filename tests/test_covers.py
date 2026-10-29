@@ -4,7 +4,7 @@ from history_workflow.covers import DEFAULTS, config, validate, refresh_plan, de
 from history_workflow.budget import DEFAULTS as BUDGET, preflight
 
 
-def test_new_episode_snapshots_three_cover_layouts(tmp_path):
+def test_new_episode_snapshots_four_cover_layouts(tmp_path):
     initialize(tmp_path)
     name = new_episode(tmp_path, '封面规格继承')['episode']
     e = Episode(tmp_path, name)
@@ -19,6 +19,9 @@ def test_new_episode_snapshots_three_cover_layouts(tmp_path):
 
 def test_cover_pixel_validation_rejects_other_layout():
     assert validate(DEFAULTS, 'DOUYIN', 1080, 1440)['size_verified']
+    assert validate(DEFAULTS, 'PORTRAIT_9_16', 1080, 1920)['size_verified']
+    with pytest.raises(WorkflowError):
+        validate(DEFAULTS, 'PORTRAIT_9_16', 1080, 1440)
     assert validate(DEFAULTS, 'DOUYIN_LANDSCAPE', 1440, 1080)['size_verified']
     with pytest.raises(WorkflowError):
         validate(DEFAULTS, 'DOUYIN', 1920, 1080)
@@ -31,7 +34,7 @@ def test_cover_pixel_validation_rejects_other_layout():
 def test_budget_uses_declared_cover_layout_count():
     state = {'episode':'预算', 'script':{'text':'字'*3600}, 'cover_plan':DEFAULTS}
     result = preflight(state, BUDGET)
-    assert result['workload']['covers'] == 3
+    assert result['workload']['covers'] == 4
 
 
 def test_existing_episode_refresh_is_explicit_and_preserves_old_assets(tmp_path):
@@ -50,7 +53,7 @@ def test_existing_episode_refresh_is_explicit_and_preserves_old_assets(tmp_path)
     e = Episode(tmp_path, e.s['episode'])
     assert len(e.s['cover_plan']['targets']) == 2
     result = refresh_plan(e)
-    assert result['changed'] and result['delivery']['required_count'] == 3
+    assert result['changed'] and result['delivery']['required_count'] == 4
     assert e.s['cover_plan_history'][-1]['plan'] == old
     assert result['delivery']['targets']['PORTRAIT_3_4']['ready']
     assert result['delivery']['targets']['PORTRAIT_3_4']['label'] == '通用竖屏封面3:4'
