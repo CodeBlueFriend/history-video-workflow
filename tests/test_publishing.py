@@ -91,3 +91,33 @@ def test_generic_cover_package_includes_verified_legacy_cover_and_detects_tamper
     assert '待制作/核验' not in (folder/'发布资料汇总.md').read_text()
     files[0].write_bytes(b'changed')
     with pytest.raises(WorkflowError,match='文件缺失或被修改'):check_package(episode)
+
+
+def test_monetization_rules_bound_to_package_never_assume_account_eligibility(episode):
+    from datetime import datetime, timezone
+    path=episode.root/'00_项目配置/平台收益计划索引.json'
+    index={'checked_at':datetime.now(timezone.utc).isoformat(),
+           'platforms':{'TOUTIAO':{'program':'合成测试计划','summary':'先核账号权益'}}}
+    write(path,index)
+    record=save_package(episode,content())
+    bundle=read(episode.path/record['directory']/'发布文案.json')
+    reports=bundle['tag_analysis']['monetization']['platforms']
+    assert len(reports)==10
+    assert all(v['account_status']=='NOT_VERIFIED' and v['revenue_estimate'] is None for v in reports.values())
+    assert reports['TOUTIAO']['review_status']=='RECENT_PUBLIC_RESEARCH_ACCOUNT_REVIEW_REQUIRED'
+    assert reports['DOUYIN']['review_status']=='PUBLIC_RULE_RECHECK_REQUIRED'
+    text=(episode.path/record['directory']/'发布资料汇总.md').read_text()
+    assert '合成测试计划' in text and '本账号资格：NOT_VERIFIED' in text
+    index['platforms']['TOUTIAO']['summary']='合成新规则'
+    write(path,index)
+    with pytest.raises(WorkflowError,match='过期'):check_package(episode)
+
+
+def test_monetization_stale_and_naive_dates_are_not_current(episode):
+    from history_workflow.monetization import snapshot
+    path=episode.root/'00_项目配置/平台收益计划索引.json'
+    for stamp in ('2020-01-01T00:00:00+00:00','2026-10-29','invalid'):
+        write(path,{'checked_at':stamp,'platforms':{'TOUTIAO':{'program':'测试'}}})
+        result=snapshot(episode.root,['TOUTIAO'])
+        assert result['fresh'] is False
+        assert result['platforms']['TOUTIAO']['review_status']=='PUBLIC_RULE_RECHECK_REQUIRED'

@@ -1,0 +1,351 @@
+{
+  "schema": 1,
+  "checked_at": "2026-10-29T18:20:00+08:00",
+  "review_interval_days": 7,
+  "scope": "中国大陆中文历史说书；YouTube另核真实居住地区。公开规则不证明账号已开通。",
+  "platforms": {
+    "DOUYIN": {
+      "name": "抖音",
+      "program": "抖音创作者伙伴计划",
+      "evidence_status": "OFFICIAL_MIGRATION_CURRENT_ENTRY_REQUIRED",
+      "summary": "查伙伴计划账号入口；旧中视频伙伴计划已停止，不能套用旧三端统一收益教程。",
+      "entry": "抖音搜索“抖音创作者伙伴计划”，或创作者中心→全部→变现→伙伴计划。",
+      "conditions": [
+        "本次已核实2024升级公告；2026常驻报名数字门槛未取得可核验的最新官方正文。",
+        "以当前账号计划页的有效粉丝、作品、身份、违规及内容质量要求为准；2024限时升级门槛不适用新报名。"
+      ],
+      "next_actions": [
+        "记录入口是否可见、未达项及当前规则日期。",
+        "核对本集原创图文叙事、AI图片/配音和完整片时长是否被计划接受。",
+        "开通后复核单条作品进入收益范围及抖音/西瓜归属，不重复计算。"
+      ],
+      "sources": [
+        {
+          "title": "西瓜视频创作中心：中视频伙伴计划等视频创作收益升级说明",
+          "url": "https://www.toutiao.com/article/7407699603870597666/",
+          "published_or_updated": "2024-08-27",
+          "kind": "OFFICIAL",
+          "access": "EXA_INDEXED_OFFICIAL_TEXT"
+        }
+      ]
+    },
+    "BILIBILI": {
+      "name": "B站",
+      "program": "创作激励；另查广告分成/充电/花火",
+      "evidence_status": "OFFICIAL_HISTORICAL_RULE_CURRENT_ENTRY_REQUIRED",
+      "summary": "适合培养完整历史故事；申请激励前先核对当前门槛、作品排除项和跨平台首发要求。",
+      "entry": "B站创作中心→创作激励；广告分成以创作中心实际入口为准。",
+      "conditions": [
+        "2023-01-04公开规则写创作力或影响力≥55、信用分≥80；这是历史官方数值，不能冒称2026已确认门槛。",
+        "同份规则要求自制、无商业推广、B站上线不晚于其他平台，并限制加入后创作的稿件；发布前逐条核对当前协议。"
+      ],
+      "next_actions": [
+        "先完成实名并查看电磁力、激励准入和广告分成入口。",
+        "若仍有首发要求，先等B站审核上线再向其他平台发布并保存时间证据。",
+        "已制作EP002能否计收益需单独问计划页；不能承诺先加入即可追溯旧作品。"
+      ],
+      "sources": [
+        {
+          "title": "UP主服务中心：创作激励计划规则",
+          "url": "https://www.bilibili.com/opus/77399369418311052",
+          "published_or_updated": "2023-01-04",
+          "kind": "OFFICIAL",
+          "access": "EXA_INDEXED_OFFICIAL_TEXT"
+        },
+        {
+          "title": "B站广告分成计划说明",
+          "url": "https://e.bilibili.com/observe/observe_98.html",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        }
+      ]
+    },
+    "XIGUA": {
+      "name": "西瓜视频",
+      "program": "抖音创作者伙伴计划的西瓜端收益",
+      "evidence_status": "OFFICIAL_MIGRATION_CURRENT_ENTRY_REQUIRED",
+      "summary": "西瓜是分发端之一；需按升级后的伙伴计划确认归属，不能另算一份旧中视频计划奖金。",
+      "entry": "按升级公告进入抖音创作者伙伴计划；西瓜创作后台核对账号关联及当前权益。",
+      "conditions": [
+        "升级公告说明抖音与西瓜端通过新伙伴计划发放收益；头条端另走头条视频创作收益。",
+        "旧计划2024-09-09关闭新加入通道，2024-09-19统一停止发放；旧手册仍被收录不代表计划恢复。"
+      ],
+      "next_actions": [
+        "核对西瓜与抖音账号关联、权益及可投稿时长。",
+        "保存实际入口规则与结算明细；双端播放与收益分开记账，避免重复相加。"
+      ],
+      "sources": [
+        {
+          "title": "西瓜视频创作中心：中视频伙伴计划等视频创作收益升级说明",
+          "url": "https://www.toutiao.com/article/7407699603870597666/",
+          "published_or_updated": "2024-08-27",
+          "kind": "OFFICIAL",
+          "access": "EXA_INDEXED_OFFICIAL_TEXT"
+        }
+      ]
+    },
+    "TOUTIAO": {
+      "name": "今日头条",
+      "program": "头条视频创作收益；文章广告/文章创作权益另核验",
+      "evidence_status": "OFFICIAL_PUBLIC_RULE",
+      "summary": "优先核验横屏视频权益，同时利用每集已制作的头条文字版；视频与文章分别看开通状态。",
+      "entry": "头条App我的→创作中心→创作权益→视频创作收益；文章权益在同一创作权益页分别确认。",
+      "conditions": [
+        "官方视频页2025-05-30更新：开通信用分100，非国家机构/其他组织；加入创作者计划后确认权益状态。",
+        "视频要求横屏（如16:9、4:3），封面比例不改变视频画幅。",
+        "收益期间信用分低于60的视频不计收益；开通100与持续收益60是两个不同条件。"
+      ],
+      "next_actions": [
+        "记录信用分、视频权益及文章广告权益是否已开通。",
+        "上传完整横屏正片时检查收益勾选项；文章复制排版HTML后另核对广告权益。",
+        "分别记录视频/文章的有效播放或阅读、预估、结算与实收。"
+      ],
+      "sources": [
+        {
+          "title": "头条视频创作收益",
+          "url": "https://baike.toutiao.com/detail/192/567/0?enter_from=left_navigation",
+          "published_or_updated": "2025-05-30",
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "头条创作者百科：查看收益",
+          "url": "https://baike.toutiao.com/detail/192/193/0?enter_from=left_navigation",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        }
+      ]
+    },
+    "WEIXIN": {
+      "name": "微信视频号",
+      "program": "创作分成计划",
+      "evidence_status": "OFFICIAL_PUBLIC_RULE_INVITATION",
+      "summary": "100有效关注是公开条件之一；仍需受邀、符合内容规范并实际开通，不能按粉丝数自动判定。",
+      "entry": "创作者中心→创作者服务→创作分成计划，或视频号团队邀请私信。",
+      "conditions": [
+        "官方说明：有效关注≥100、符合内容规范、非政务号，内测分批邀请；仅中国大陆用户且微信支付身份证实名。",
+        "加入后新发表并声明原创的视频才支持；有带货/互选等商业推广的作品不适用同一评论区广告规则。"
+      ],
+      "next_actions": [
+        "核对有效关注、邀请、实名及评论区广告开关。",
+        "确认本账号长视频上传权限和AI画面口播原创声明适用性，再公开发表并声明原创。",
+        "发布后到展示广告的视频列表查看，开通/声明原创均不保证实际广告填充。"
+      ],
+      "sources": [
+        {
+          "title": "视频号创作分成计划说明手册",
+          "url": "https://support.weixin.qq.com/cgi-bin/mmsupportacctnodeweb-bin/pages/flrux77QlRxPwwhY",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "EXA_INDEXED_OFFICIAL_TEXT"
+        },
+        {
+          "title": "微信营销：创作分成计划",
+          "url": "https://ad.weixin.qq.com/docs/273",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "EXA_INDEXED_OFFICIAL_TEXT"
+        }
+      ]
+    },
+    "KUAISHOU": {
+      "name": "快手",
+      "program": "创作者激励计划（原广告共享计划）",
+      "evidence_status": "OFFICIAL_EXISTENCE_CURRENT_ENTRY_REQUIRED",
+      "summary": "已核实作品播放页广告分成模式，尚不能据公开帮助页确定当前账号准入门槛。",
+      "entry": "快手创作者服务平台/创作者中心查变现入口；官方账号“快手创作者激励计划”（chenzhongkeji123）公告。",
+      "conditions": [
+        "官方帮助说明参与后按广告效果获取收益，没有给本次可确认的最新粉丝/作品数字门槛。",
+        "不能把磁力聚星商单、带货佣金和一般播放广告分成视作同一权益。"
+      ],
+      "next_actions": [
+        "记录计划入口、准入条件、接受原创图文口播与长片的范围。",
+        "开通后按单条作品收益资格复核；没有入口时继续积累原创内容，不承诺固定播放单价。"
+      ],
+      "sources": [
+        {
+          "title": "快手帮助：什么是创作者激励计划",
+          "url": "https://www.kuaishou.com/help/feedback/2784",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        }
+      ]
+    },
+    "YOUTUBE": {
+      "name": "YouTube",
+      "program": "YouTube Partner Program（YPP）",
+      "evidence_status": "OFFICIAL_PUBLIC_RULE_FUTURE_CHANGE",
+      "summary": "完整故事适合积累观看时长；先核对真实居住地区与AdSense资格，再规划订阅和观看目标。",
+      "entry": "YouTube Studio→创收（Earn）。",
+      "conditions": [
+        "当前广告/Premium分成：1000订阅+过去12个月4000小时有效公开视频观看，或1000订阅+90天1000万有效Shorts观看；达到后仍审核。",
+        "部分适用地区的扩展YPP：500订阅+90天3次有效公开上传+12个月3000小时，或90天300万Shorts；先开放粉丝资助等功能，不等于完整广告分成。",
+        "YPP适用地区名单未列中国大陆；列有香港、台湾等。需真实居住/收款资格、两步验证、高级功能及有效AdSense，不能只切换频道地区。",
+        "已公告2027-02-01起新申请广告/Premium门槛变为1000订阅+365天8000有效小时，或90天2000万Shorts；已在YPP者身份不受该门槛调整影响。"
+      ],
+      "next_actions": [
+        "先确认地区及收款资格，未确认时不把YPP收入计入预算。",
+        "保留原创研究、脚本版本和逐段画面设计；AI辅助可用，批量同模板、低叙事价值幻灯片存在创收风险。",
+        "已加入者查看2027条款提示，由账号持有人决定是否在2027-01-31前接受。"
+      ],
+      "sources": [
+        {
+          "title": "YPP概览与资格",
+          "url": "https://support.google.com/youtube/answer/72851?hl=zh-Hans",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "扩展YPP",
+          "url": "https://support.google.com/youtube/answer/13429240?hl=en",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "YPP适用地区",
+          "url": "https://support.google.com/youtube/answer/7101720?hl=zh-Hans",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "2027年YPP更新",
+          "url": "https://support.google.com/youtube/answer/12843009",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "频道创收政策",
+          "url": "https://support.google.com/youtube/answer/1311392?hl=en",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        }
+      ],
+      "future_changes": [
+        {
+          "effective_on": "2027-02-01",
+          "summary": "新申请广告/Premium门槛调整；2027-01-31条款接受截止提示。"
+        }
+      ]
+    },
+    "XIAOHONGSHU": {
+      "name": "小红书",
+      "program": "视频激励/创作基金；蒲公英商单；视频广告分成待确认开放",
+      "evidence_status": "MIXED_OFFICIAL_COMMERCE_ANNOUNCED_VIDEO_SHARE",
+      "summary": "区分流量券、入选扶持、商单与播放分成；截至本轮未核实视频广告分成已普遍开放。",
+      "entry": "小红书创作者中心→全部服务；蒲公英/博主合作核对当前入口。",
+      "conditions": [
+        "2026-10-20蒲公英官方入驻说明：实名、18岁、1000粉、个人专业号、近期合规；这是商单入驻条件。",
+        "2026-05-26大会报道：视频激励任务奖励流量券；创作基金为选拔扶持。视频广告分成当时仍在测试，预计下半年推出。",
+        "尚未取得截至2026-10-29一般历史长片广告分成普遍开放的官方规则，不能用商单门槛代替。"
+      ],
+      "next_actions": [
+        "后台分别查看视频激励任务、创作基金报名、视频分成及博主合作入口。",
+        "若出现视频分成入口，保存当前条款和历史口播适用范围再更新索引。",
+        "用实际上传页判断完整片或分章版本；流量券不计现金收入。"
+      ],
+      "sources": [
+        {
+          "title": "蒲公英博主入驻操作指南",
+          "url": "https://pgy.xiaohongshu.com/help/detail?id=22aa451e5f92647735efb60001b704d2&userType=6",
+          "published_or_updated": "2026-10-20",
+          "kind": "OFFICIAL",
+          "access": "SEARCH_INDEXED_OFFICIAL_TEXT"
+        },
+        {
+          "title": "第一财经：小红书中长视频计划发布与会后采访",
+          "url": "https://www.yicai.com/news/103201938.html",
+          "published_or_updated": "2026-05-26",
+          "kind": "MEDIA_FIRST_HAND",
+          "access": "PUBLIC_PAGE"
+        }
+      ]
+    },
+    "ALIPAY": {
+      "name": "支付宝",
+      "program": "支付宝生活创作分成计划",
+      "evidence_status": "OFFICIAL_UPDATE_CURRENT_TERMS_REQUIRED",
+      "summary": "存在创作分成，2025年起已更新政策；当前报名条件需在本账号核对，不沿用2023门槛。",
+      "entry": "支付宝生活/创作者中心及创作分成计划当前报名页。",
+      "conditions": [
+        "官方公告：旧分成政策2025-06-30到期，2025-07-01起更新，登录查看详细规则。",
+        "2026-03-01起MCN分账机制调整，只涉及签约达人/机构结算，不能当作个人创作者新准入条件。",
+        "2025创作建议含15秒至30分钟范围；这不是已确认的当前硬上限，完整60分钟须另查账号上传/计划限制。"
+      ],
+      "next_actions": [
+        "查看当前分成计划门槛、权益和原创/AI内容要求，记录规则日期。",
+        "逐项核验长片时长、格式和单条计收益范围；必要时按完整故事章节另出版本。",
+        "独立作者无需为未知资格先签MCN；分成细则未读全前不预测收入。"
+      ],
+      "sources": [
+        {
+          "title": "分成计划到期更新公告",
+          "url": "https://partner.alipay.com/announcement/104",
+          "published_or_updated": "2025-06-30",
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "创作分成计划细则（动态正文待账号核对）",
+          "url": "https://opendoc.alipay.com/b/0a9bqr?pathHash=736b42a3",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "DYNAMIC_BODY_NOT_RETRIEVED"
+        },
+        {
+          "title": "MCN分账机制优化",
+          "url": "https://partner.alipay.com/announcement/113",
+          "published_or_updated": "2026-03-01（正文生效日）",
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "创作建议",
+          "url": "https://opendoc.alipay.com/b/03al0z?pathHash=55774cac",
+          "published_or_updated": "2025-01-03",
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        }
+      ]
+    },
+    "PINDUODUO": {
+      "name": "拼多多",
+      "program": "普通历史说书播放收益未核实；多多有好剧不直接适用",
+      "evidence_status": "NO_VERIFIED_APPLICABLE_GENERAL_PLAN",
+      "summary": "保留创作分发入口，暂不把普通历史长片播放收益计入预算。",
+      "entry": "拼多多官方创作者平台：https://live.yangkeduo.com/n-creator/live/home",
+      "conditions": [
+        "已核实的多多有好剧V9.0面向符合条件的机构和短剧，2025-10-17生效；不等同我们的历史口播。",
+        "未核实当前面向一般历史说书作者的公开普遍播放分成计划；电商种草任务也不能自动套用。"
+      ],
+      "next_actions": [
+        "查看本账号原创奖励/创作者任务及适用内容、截止时间和结算条件。",
+        "仅当明确接受历史说书时录入对应计划；不套用版权短剧CPM，不为拿奖励改变内容归类。"
+      ],
+      "sources": [
+        {
+          "title": "官方创作入口",
+          "url": "https://live.yangkeduo.com/n-creator/live/home",
+          "published_or_updated": null,
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        },
+        {
+          "title": "多多有好剧V9.0规则",
+          "url": "https://pfile.pddpic.com/galerie-go/mobile_live/70925f44-76a9-4521-a4cb-949c48bb5935.pdf",
+          "published_or_updated": "2025-10-17",
+          "kind": "OFFICIAL",
+          "access": "PUBLIC_PAGE"
+        }
+      ]
+    }
+  },
+  "notice": "收益资格与流量推荐、上传权限、视频最终验收分别核对；不承诺收益，不自动接受独家、首发或合同。"
+}

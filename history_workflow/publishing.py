@@ -77,6 +77,8 @@ def build(episode, data=None):
     rules_path=episode.root/'00_项目配置/平台推荐规则索引.json'
     rules=read(rules_path) if rules_path.exists() else {'platforms':{}}
     analysis['recommendation_rules']=rules
+    from .monetization import snapshot as monetization_snapshot
+    analysis['monetization']=monetization_snapshot(episode.root, settings['platforms'])
     article={'status':'NOT_PREPARED'}
     if episode.s.get('toutiao_article_packages'):
         from .articles import check_article
@@ -151,7 +153,20 @@ def save_package(episode, data=None):
                   '热点检索：'+report['retrieval_status']+'；'+report['retrieval_note'],
                   '快照新鲜度：'+('7日内；发布前仍需复查' if report['fresh'] else '缺失或过期，不能当作当前热点'), '',
                   '公开推荐规则：'+rule['summary'],
-                  '规则来源：'+'；'.join(rule.get('sources',[])), '', '标签依据：', '']
+                  '规则来源：'+'；'.join(rule.get('sources',[])), '']
+        earnings=bundle['tag_analysis']['monetization']
+        account=earnings['platforms'][platform]
+        plan=account['public_plan']
+        lines += ['收益计划：'+plan.get('program','尚未核实适用计划'), '',
+                  '公开资料核对日期：'+str(earnings['checked_at'] or '未核对')+'；'+('7日内检索，仍需核对账号页' if earnings['fresh'] else '缺失或超过7日，发布前重新核对'), '',
+                  '证据范围：'+plan.get('evidence_status','NOT_RESEARCHED'), '',
+                  '参与判断：'+plan.get('summary','需检索官方现行规则'), '',
+                  '本账号资格：'+account['account_status']+'；'+account['account_note'], '',
+                  '查看入口：'+plan.get('entry','待核验'), '', '参与条件与待办：', '']
+        for item in plan.get('conditions',[]): lines.append('- '+item)
+        for item in plan.get('next_actions',[]): lines.append('- '+item)
+        for item in plan.get('sources',[]): lines.append('- 收益资料：['+item['title']+']('+item['url']+')')
+        lines += ['', '标签依据：', '']
         if platform == 'YOUTUBE': lines += ['', 'YouTube普通tags（无#，单独填元数据栏）：'+', '.join(content['metadata_tags']), '']
         for item in report['selected']: lines.append('- '+item['tag']+'：'+item['reason'])
         for item in report['hot_matches']: lines.append('- 可匹配热点：'+item['tag']+'；'+item['reason']+'；'+item['url'])
