@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "retrieved_at": "2026-10-29T08:07:33.011752+00:00",
+  "region": "中国大陆中文内容；YouTube中文受众，未指定地区榜",
+  "scope": "空模板，替换retrieved_at和逐平台检索记录后再导入",
+  "platforms": {
+    "DOUYIN": {
+      "status": "NOT_FOUND",
+      "query": "抖音 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "BILIBILI": {
+      "status": "NOT_FOUND",
+      "query": "B站 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "XIGUA": {
+      "status": "NOT_FOUND",
+      "query": "西瓜视频 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "TOUTIAO": {
+      "status": "NOT_FOUND",
+      "query": "今日头条 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "WEIXIN": {
+      "status": "NOT_FOUND",
+      "query": "微信视频号 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "KUAISHOU": {
+      "status": "NOT_FOUND",
+      "query": "快手 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "YOUTUBE": {
+      "status": "NOT_FOUND",
+      "query": "YouTube 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "XIAOHONGSHU": {
+      "status": "NOT_FOUND",
+      "query": "小红书 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "ALIPAY": {
+      "status": "NOT_FOUND",
+      "query": "支付宝 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    },
+    "PINDUODUO": {
+      "status": "NOT_FOUND",
+      "query": "拼多多 官方 热门话题 历史 2026年10月29日",
+      "items": [],
+      "note": "填写真实检索结果及失败原因；示例不是当前热点。"
+    }
+  }
+}

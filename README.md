@@ -10,9 +10,11 @@
 
 完整阅读：[素材检索与故事选题建议](docs/story-sourcing.md)。无需初始化也可运行 `./scripts/history-workflow startup-guide`；`--help` 同样显示建议。
 
-## 发布文案
+## 发布文案与视频标签
 
-每集锁稿后自动建立发布包草稿。创作助手从锁稿提炼简介和悬念，通过 `publication-package 集名 --file 文案.json` 生成各平台可复制的TXT。发布标题与视频完整标题逐字一致，吸引句单列为可选副标题文案；改标题、改稿或修改生成文件后，`publication-check` 会要求重新生成。程序只准备资料，不执行发布。详见[发布文案包说明](docs/publishing.md)。
+每集锁稿后自动建立发布包草稿。创作助手从锁稿提炼简介和悬念，通过 `publication-package 集名 --file 文案.json` 生成一份各平台发布资料汇总及结构化JSON，封面放在同包的封面目录。发布标题与视频完整标题逐字一致，吸引句单列为可选副标题文案；改标题、改稿或修改生成文件后，`publication-check` 会要求重新生成。程序只准备资料，不执行发布。详见[发布文案包说明](docs/publishing.md)。
+
+默认支持抖音、B站、西瓜视频、今日头条、微信视频号、快手、YouTube、小红书、支付宝、拼多多。每周保存本地热点快照，结合锁稿和账号定位筛选相关标签，保留采用/排除依据；缺失、过期及无关热点不会直接采用。封面统一按3:4、4:3、16:9命名，另备按需9:16规格。见[标签与每周执行流程](docs/platform-tags.md)及[官方推荐规则与出处](docs/platform-recommendations.md)。
 
 ## 快速开始
 
@@ -30,7 +32,7 @@ python3.12 -m venv .venv
 
 - [故事线历史与重复检查](docs/story-history.md)（人物可重复，故事线不能重复，样片与测试排除）
 - [说书式口播编写规则](docs/workflow-v5.md#说书式口播编写)（背景铺垫、人物入场、情境二创与口播/考据分开）
-- [完整工作流与输入格式](docs/workflow-v5.md)（含B站横向、抖音横向及竖向三套封面规格与像素验证）
+- [完整工作流与输入格式](docs/workflow-v5.md)（含通用比例封面规格与像素验证）
 - [可选本地配音工具](docs/local-tts.md)
 - [上游接口记录](docs/upstream.md)
 

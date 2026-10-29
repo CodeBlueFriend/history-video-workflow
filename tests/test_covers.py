@@ -10,11 +10,11 @@ def test_new_episode_snapshots_three_cover_layouts(tmp_path):
     e = Episode(tmp_path, name)
     assert e.s['cover_plan'] == DEFAULTS
     changed = config(tmp_path)
-    changed['targets']['BILIBILI']['width'] = 1280
+    changed['targets']['LANDSCAPE_16_9']['width'] = 1280
     write(tmp_path / '00_项目配置/封面规格配置.json', changed)
-    assert Episode(tmp_path, name).s['cover_plan']['targets']['BILIBILI']['width'] == 1920
+    assert Episode(tmp_path, name).s['cover_plan']['targets']['LANDSCAPE_16_9']['width'] == 1920
     next_name = new_episode(tmp_path, '另一集')['episode']
-    assert Episode(tmp_path, next_name).s['cover_plan']['targets']['BILIBILI']['width'] == 1280
+    assert Episode(tmp_path, next_name).s['cover_plan']['targets']['LANDSCAPE_16_9']['width'] == 1280
 
 
 def test_cover_pixel_validation_rejects_other_layout():
@@ -37,10 +37,11 @@ def test_budget_uses_declared_cover_layout_count():
 def test_existing_episode_refresh_is_explicit_and_preserves_old_assets(tmp_path):
     initialize(tmp_path)
     e = Episode(tmp_path, new_episode(tmp_path, '旧封面快照')['episode'])
-    old = config(tmp_path)
-    old['version'] = 2
+    import copy
+    old = copy.deepcopy(DEFAULTS)
+    old['version'] = 3
+    old['targets'] = {'BILIBILI': old['targets']['LANDSCAPE_16_9'], 'DOUYIN': old['targets']['PORTRAIT_3_4']}
     old['layout_count'] = 2
-    old['targets'].pop('DOUYIN_LANDSCAPE')
     old['targets']['DOUYIN']['filename'] = '封面_抖音_1080x1440.png'
     e.s['cover_plan'] = old
     e.s['assets']['OLD'] = {'kind':'cover', 'cover_target':'DOUYIN', 'width':1080,
@@ -51,9 +52,9 @@ def test_existing_episode_refresh_is_explicit_and_preserves_old_assets(tmp_path)
     result = refresh_plan(e)
     assert result['changed'] and result['delivery']['required_count'] == 3
     assert e.s['cover_plan_history'][-1]['plan'] == old
-    assert result['delivery']['targets']['DOUYIN']['ready']
-    assert result['delivery']['targets']['DOUYIN']['label'] == '抖音竖向封面'
-    assert not result['delivery']['targets']['DOUYIN_LANDSCAPE']['ready']
+    assert result['delivery']['targets']['PORTRAIT_3_4']['ready']
+    assert result['delivery']['targets']['PORTRAIT_3_4']['label'] == '通用竖屏封面3:4'
+    assert not result['delivery']['targets']['LANDSCAPE_4_3']['ready']
     assert e.s['assets']['OLD']['cover_target'] == 'DOUYIN'
     assert refresh_plan(e)['changed'] is False
 

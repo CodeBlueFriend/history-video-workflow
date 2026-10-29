@@ -43,6 +43,10 @@ def parser():
         q = sub.add_parser(name); q.add_argument('episode')
     q = sub.add_parser('cover-plan', help='查看本集封面快照；--refresh显式采用当前默认规格并保留历史')
     q.add_argument('episode'); q.add_argument('--refresh', action='store_true')
+    q = sub.add_parser('trends-import', help='归档每周10平台热点检索快照，逐项保留失败')
+    q.add_argument('file', type=Path)
+    q = sub.add_parser('tag-match', help='按锁稿、长期定位和本地热点快照分析各平台标签')
+    q.add_argument('episode')
     q = sub.add_parser('publication-package', help='生成各平台本地发布文案包；标题与视频一致，不执行发布')
     q.add_argument('episode'); q.add_argument('--file', type=Path, help='导入编辑后的文案JSON；省略时复用文案或建立待填写草稿')
     q = sub.add_parser('run-finish', help='总结本次制作耗时和有回执的实际算力用量；排除手动配音')
@@ -76,6 +80,10 @@ def main(argv=None):
             result = startup_guide()
         elif cmd == 'init':
             result = initialize(root, args.output_dir or desktop() / '历史故事长篇')
+        elif cmd == 'trends-import':
+            from .tags import import_snapshot
+            with exclusive(root):
+                result = import_snapshot(root, read(args.file))
         elif cmd in ('story-history', 'story-record', 'story-check'):
             from .story_history import history, record, check
             result = history(root) if cmd == 'story-history' else (record(root, read(args.file)) if cmd == 'story-record' else check(root, read(args.file)))
@@ -143,6 +151,9 @@ def main(argv=None):
                 elif cmd == 'cover-status':
                     from .covers import delivery_status
                     result = delivery_status(episode.s)
+                elif cmd == 'tag-match':
+                    from .publishing import build
+                    result = build(episode)['tag_analysis']
                 elif cmd == 'publication-package':
                     from .publishing import save_package
                     result = save_package(episode, read(args.file) if args.file else None)

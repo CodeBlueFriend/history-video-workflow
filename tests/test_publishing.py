@@ -70,3 +70,24 @@ def test_unknown_platform_and_invalid_tags_rejected(episode):
     write(episode.root/'00_项目配置/发布文案配置.json', {'platforms': ['../../elsewhere']})
     with pytest.raises(WorkflowError, match='平台未知'):
         build(episode, content())
+
+
+def test_generic_cover_package_includes_verified_legacy_cover_and_detects_tamper(episode):
+    from PIL import Image
+    from history_workflow.covers import DEFAULTS as COVERS
+    from history_workflow.core import file_hash
+    episode.s['publication'].update(main_title='主标题',subtitle='副标题')
+    episode.s['cover_plan']=COVERS
+    episode.s['assets']={}
+    for i,(target,spec) in enumerate(COVERS['targets'].items()):
+        path=episode.path/f'image{i}.png';path.parent.mkdir(parents=True,exist_ok=True)
+        Image.new('RGB',(spec['width'],spec['height'])).save(path)
+        old={'LANDSCAPE_16_9':'BILIBILI','LANDSCAPE_4_3':'DOUYIN_LANDSCAPE','PORTRAIT_3_4':'DOUYIN'}[target]
+        episode.s['assets'][str(i)]={'kind':'cover','cover_target':old,'main_title':'主标题','subtitle':'副标题',
+                                    'path':path.name,'sha256':file_hash(path),'width':spec['width'],'height':spec['height'],'review':True}
+    record=save_package(episode,content()); folder=episode.path/record['directory']
+    files=list((folder/'封面').glob('*.png'))
+    assert len(files)==3 and all('通用' in f.name for f in files)
+    assert '待制作/核验' not in (folder/'发布资料汇总.md').read_text()
+    files[0].write_bytes(b'changed')
+    with pytest.raises(WorkflowError,match='文件缺失或被修改'):check_package(episode)

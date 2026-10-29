@@ -2,17 +2,15 @@
 import copy
 from .core import now, read, require
 
+ALIASES = {'BILIBILI':'LANDSCAPE_16_9', 'DOUYIN':'PORTRAIT_3_4', 'DOUYIN_LANDSCAPE':'LANDSCAPE_4_3'}
 DEFAULTS = {
-    'version': 3, 'layout_count': 3,
+    'version': 4, 'layout_count': 3,
     'targets': {
-        'BILIBILI': {'label':'B站横版', 'width':1920, 'height':1080, 'ratio':'16:9',
-                     'safe_crop_ratio':'4:3', 'filename':'封面_B站_1920x1080.png'},
-        # Preserve the existing target ID so old assets still mean portrait.
-        'DOUYIN': {'label':'抖音竖向封面', 'width':1080, 'height':1440, 'ratio':'3:4',
-                   'safe_crop_ratio':'9:16', 'filename':'封面_抖音竖向_1080x1440.png'},
-        'DOUYIN_LANDSCAPE': {'label':'抖音横向封面', 'width':1440, 'height':1080, 'ratio':'4:3',
-                             'safe_crop_ratio':'4:3', 'filename':'封面_抖音横向_1440x1080.png'}},
-    'policy':'三套分别构图、同一故事身份与标题；不得拉伸或直接硬裁造成文字、人物缺失。重要文字与人物在安全区。',
+        'LANDSCAPE_16_9': {'label':'通用横屏封面16:9', 'width':1920, 'height':1080, 'ratio':'16:9', 'filename':'通用横屏封面16比9.png'},
+        'PORTRAIT_3_4': {'label':'通用竖屏封面3:4', 'width':1080, 'height':1440, 'ratio':'3:4', 'filename':'通用竖屏封面3比4.png'},
+        'LANDSCAPE_4_3': {'label':'通用横屏封面4:3', 'width':1440, 'height':1080, 'ratio':'4:3', 'filename':'通用横屏封面4比3.png'}},
+    'optional_targets': {'PORTRAIT_9_16': {'label':'通用竖屏封面9:16', 'width':1080, 'height':1920, 'ratio':'9:16', 'filename':'通用竖屏封面9比16.png'}},
+    'policy':'按比例命名和复用；默认三套，9:16按需启用。不得拉伸或硬裁造成文字人物缺失。',
     'text_policy': {
         'allowed_roles': ['main_title', 'subtitle'],
         'subtitle_optional': True,
@@ -21,8 +19,8 @@ DEFAULTS = {
         'forbidden_examples': ['明人笔记里的两幕', '历史情境示意', '历史情景示意'],
         'notes_location': '资料性质与二创说明保留在项目资料和发布说明中，不写在封面上。'
     },
-    'verification':'项目交付规格；不是声称平台所有场景只接受此尺寸。发布前按实际上传页复查裁切与提示。',
-    'generation_stage':'锁稿后生成；可与手动网页配音独立推进；交付三套并分别实测像素尺寸。'
+    'verification':'通用交付规格；具体平台发布时检查上传页及实际裁切。',
+    'generation_stage':'锁稿后可与配音并行；按启用规格逐套构图、实测像素。'
 }
 
 
@@ -50,7 +48,7 @@ def delivery_status(state):
     targets = {}
     for target, spec in plan['targets'].items():
         accepted = [aid for aid, a in state.get('assets', {}).items()
-                    if a.get('kind') == 'cover' and a.get('cover_target') == target
+                    if a.get('kind') == 'cover' and ALIASES.get(a.get('cover_target'), a.get('cover_target')) == ALIASES.get(target, target)
                     and not a.get('stale') and a.get('review')
                     and (a.get('width'), a.get('height')) == (spec['width'], spec['height'])]
         targets[target] = {'label': spec['label'], 'filename': spec['filename'],
@@ -63,6 +61,7 @@ def delivery_status(state):
 
 def validate(plan, target, width, height):
     targets = plan['targets']
+    target = target if target in targets else ALIASES.get(target, target)
     require(target in targets, '未知封面目标平台')
     spec = targets[target]
     require((width, height)==(spec['width'],spec['height']),

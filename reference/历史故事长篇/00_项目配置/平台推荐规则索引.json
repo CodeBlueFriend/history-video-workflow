@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "checked_at": "2026-10-29T08:09:21.080205+00:00",
+  "platforms": {
+    "DOUYIN": {
+      "summary": "推荐会结合用户行为、内容匹配及多目标排序；不能把手填话题标签当成推荐开关。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://trust.douyin.com/algorithm/"
+      ]
+    },
+    "BILIBILI": {
+      "summary": "官方创作课程建议准确填写内容标签，并按投稿分区查看活动标签；未公布本项目可用的固定推荐权重。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://activity.hdslb.com/blackboard/static/20220413/3a39c8b7178bc50b4dc5d0700df76d20/lesson3.pdf"
+      ]
+    },
+    "XIGUA": {
+      "summary": "算法备案公示覆盖西瓜和今日头条，描述以用户行为建模并进行排序、打散和干预；不能据此推出标签数量或播放保证。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://beian.cac.gov.cn/api/static/fileUpload/principalOrithm/additional/user_9b84b02a-0c7f-4bd4-81f2-5cad879ad4ab_96ed08c8-0ed8-4ab5-b04d-46cccf4c00ab.pdf"
+      ]
+    },
+    "TOUTIAO": {
+      "summary": "算法备案公示覆盖西瓜和今日头条，描述以用户行为建模并进行排序、打散和干预；不能据此推出标签数量或播放保证。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://beian.cac.gov.cn/api/static/fileUpload/principalOrithm/additional/user_9b84b02a-0c7f-4bd4-81f2-5cad879ad4ab_96ed08c8-0ed8-4ab5-b04d-46cccf4c00ab.pdf"
+      ]
+    },
+    "WEIXIN": {
+      "summary": "监管公开材料确认视频号完善好友推荐和算法推荐双重机制；具体权重和话题流量收益未核实。",
+      "status": "REGULATOR_PUBLIC",
+      "sources": [
+        "https://www.cac.gov.cn/2025-05/22/c_1749536203490537.htm"
+      ]
+    },
+    "KUAISHOU": {
+      "summary": "官方隐私说明提及浏览、播放、搜索等信息用于个性化内容推荐；这不是标签加权公式。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://privacy.kuaishou.com/policy"
+      ]
+    },
+    "YOUTUBE": {
+      "summary": "普通视频tags主要帮助纠正常见拼写问题，对发现的作用有限；标题、缩略图、简介更重要。推荐还结合观看/搜索历史和满意度等信号。普通tags与#hashtag应分别填写。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://support.google.com/youtube/answer/146402?hl=en",
+        "https://support.google.com/youtube/answer/16089387?hl=en"
+      ]
+    },
+    "XIAOHONGSHU": {
+      "summary": "官方热点榜规则以搜索、传播、互动及点击率形成热度；这是热点榜规则，不能当成每篇笔记的推荐公式。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://fe.xiaohongshu.com/ditto/vincent/c45978d1a53d4dec963167ebd6f1802e?fullscreen=true&naviHidden=yes"
+      ]
+    },
+    "ALIPAY": {
+      "summary": "官方创作建议重视信息完整、知识选题新奇且低同质化、音画相关及封面主体清晰；没有核实公开热门话题加权公式。需在当前账号发布页核验可推荐状态。",
+      "status": "OFFICIAL_PUBLIC",
+      "sources": [
+        "https://opendoc.alipay.com/b/03al0z?pathHash=55774cac"
+      ]
+    },
+    "PINDUODUO": {
+      "summary": "已找到官方创作入口，未核实一般历史说书视频的公开推荐细则和热门话题榜。不能用电商商品推荐或版权短剧激励规则代替。",
+      "status": "UNVERIFIED",
+      "sources": [
+        "https://live.yangkeduo.com/n-creator/live/home"
+      ]
+    }
+  },
+  "notice": "公开原则及本次检索结论，不是完整算法。规则和上传限制需发布当天核对。"
+}

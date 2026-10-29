@@ -261,6 +261,9 @@ def test_production_delivery_excludes_application(ep,tmp_path):
     imported(ep,tmp_path)
     output=tmp_path/'desktop'/'资料'
     initialize(ep.root,output)
+    # Cover metadata imported after lock makes the draft publishing package stale.
+    from history_workflow.publishing import save_package
+    save_package(ep)
     first=ep.deliver()
     target=Path(first['directory'])
     assert (target/'02_故事文稿/口播定稿.txt').exists()

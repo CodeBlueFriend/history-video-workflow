@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "refresh_days": 7,
+  "maximum_tags": 6,
+  "account_genre": "名人相关的历史细节说书",
+  "fixed_tags": [
+    "历史故事"
+  ],
+  "content_rules": [
+    {
+      "tag": "明朝历史",
+      "keywords": [
+        "张居正",
+        "万历",
+        "曾省吾",
+        "王篆"
+      ]
+    },
+    {
+      "tag": "张居正",
+      "keywords": [
+        "张居正"
+      ]
+    },
+    {
+      "tag": "万历",
+      "keywords": [
+        "万历"
+      ]
+    },
+    {
+      "tag": "曾省吾",
+      "keywords": [
+        "曾省吾"
+      ]
+    },
+    {
+      "tag": "王篆",
+      "keywords": [
+        "王篆"
+      ]
+    }
+  ],
+  "policy": "先内容相关，再考察热度；固定标签不是热榜。评分是项目筛选规则，不是平台算法或流量预测。"
+}
