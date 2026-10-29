@@ -463,7 +463,10 @@ class Episode:
         self.s['status'] = 'SCRIPT_LOCKED'
         write(self.path / '02_故事文稿/口播定稿.txt', self.s['script']['text'])
         self.save('锁稿')
-        return self.document('PLAN')
+        result = dict(self.document('PLAN'))
+        from .publishing import save_package
+        result['publication_package'] = save_package(self)
+        return result
 
     def copy_asset(self, source, category):
         source = Path(source).expanduser().resolve()
@@ -690,6 +693,10 @@ class Episode:
                 for artifact in latest['files']:
                     self.verify_file(artifact)
                     files[artifact['path']] = artifact['sha256']
+        if self.s.get('publication_packages'):
+            from .publishing import check_package
+            for artifact in check_package(self)['files']:
+                files[artifact['path']] = artifact['sha256']
         require(files, '本集尚无可交付的生产资料')
         parent = inside(output, self.s['episode'])
         parent.mkdir(parents=True, exist_ok=True)

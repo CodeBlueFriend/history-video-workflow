@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "platforms": ["BILIBILI", "DOUYIN", "WEIXIN", "XIGUA", "KUAISHOU", "YOUTUBE", "XIAOHONGSHU", "BAIJIAHAO"],
+  "title_policy": "发布标题与本集视频完整标题逐字一致，副标题文案单列；平台超长时提示人工处理，不自动截断。",
+  "copy_policy": "从锁稿提炼背景、人物关系与悬念，不新增事实、不把待核指控坐实、不虚构原因或承诺流量。",
+  "delivery_policy": "仅生成本地发布包，不登录或发布；平台字数、上传资格、原创及AI标识按实际页面复核。"
+}

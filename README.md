@@ -10,6 +10,10 @@
 
 完整阅读：[素材检索与故事选题建议](docs/story-sourcing.md)。无需初始化也可运行 `./scripts/history-workflow startup-guide`；`--help` 同样显示建议。
 
+## 发布文案
+
+每集锁稿后自动建立发布包草稿。创作助手从锁稿提炼简介和悬念，通过 `publication-package 集名 --file 文案.json` 生成各平台可复制的TXT。发布标题与视频完整标题逐字一致，吸引句单列为可选副标题文案；改标题、改稿或修改生成文件后，`publication-check` 会要求重新生成。程序只准备资料，不执行发布。详见[发布文案包说明](docs/publishing.md)。
+
 ## 快速开始
 
 需要 Python 3.12。接收媒体、测量音视频时需要 ffmpeg/ffprobe。

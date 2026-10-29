@@ -39,8 +39,10 @@ def parser():
     n.add_argument('--sample', action='store_true', help='样片/测试项目，不计故事历史或占用')
     for name in ('capabilities', 'topic', 'public-source'):
         q = sub.add_parser(name); q.add_argument('file', type=Path)
-    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start', 'cover-plan'):
+    for name in ('status', 'check', 'lock', 'handoff', 'deliver', 'preflight', 'run-start', 'cover-plan', 'publication-check'):
         q = sub.add_parser(name); q.add_argument('episode')
+    q = sub.add_parser('publication-package', help='生成各平台本地发布文案包；标题与视频一致，不执行发布')
+    q.add_argument('episode'); q.add_argument('--file', type=Path, help='导入编辑后的文案JSON；省略时复用文案或建立待填写草稿')
     q = sub.add_parser('run-finish', help='总结本次制作耗时和有回执的实际算力用量；排除手动配音')
     q.add_argument('episode'); q.add_argument('file', type=Path)
     q = sub.add_parser('content', help='导入资料、提纲或文稿；不自动生成历史事实')
@@ -136,6 +138,12 @@ def main(argv=None):
                 elif cmd == 'cover-plan':
                     from .covers import config as cover_config
                     result = episode.s.get('cover_plan') or cover_config(root)
+                elif cmd == 'publication-package':
+                    from .publishing import save_package
+                    result = save_package(episode, read(args.file) if args.file else None)
+                elif cmd == 'publication-check':
+                    from .publishing import check_package
+                    result = check_package(episode)
                 elif cmd == 'check':
                     result = {'lock_blockers': episode.blockers(), 'status': episode.s['status'], 'integrations': read(root/'00_项目配置/工作台配置.json')['integrations']}
                 elif cmd == 'story-profile':
